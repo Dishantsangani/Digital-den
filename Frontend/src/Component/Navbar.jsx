@@ -217,36 +217,20 @@ function Navbar() {
                                       Salmon
                                     </p>
                                   </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty 1</p>
-                                    <div className="flex">
-                                      <button className="font-medium text-indigo-600 hover:text-indigo-500">
-                                        Remove
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
 
-                              <li className="flex py-6">
-                                <div className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img
-                                    src="https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg"
-                                    alt="Medium Stuff Satchel"
-                                    className="size-full object-cover"
-                                  />
-                                </div>
-                                <div className="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>Medium Stuff Satchel</h3>
-                                      <p className="ml-4">$32.00</p>
-                                    </div>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                      Blue
-                                    </p>
+                                  <div className="flex flex-1 items-center justify-start gap-2 mt-2">
+                                    <button className="px-2 py-1 border rounded hover:bg-gray-100 font-bold">
+                                      −
+                                    </button>
+                                    <span className="text-gray-700 font-medium">
+                                      1
+                                    </span>
+                                    <button className="px-2 py-1 border rounded hover:bg-gray-100 font-bold">
+                                      +
+                                    </button>
                                   </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
+
+                                  <div className="flex flex-1 items-end justify-between text-sm mt-2">
                                     <p className="text-gray-500">Qty 1</p>
                                     <div className="flex">
                                       <button className="font-medium text-indigo-600 hover:text-indigo-500">

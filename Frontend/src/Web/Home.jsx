@@ -15,6 +15,10 @@ function Home() {
       .then((res) => setproducts(res.data.data))
       .catch((err) => console.log("error", err));
   }, []);
+
+  const handleaddtocart = (id) => {
+    console.log("cart id", id);
+  };
   return (
     <>
       <Navbar />
@@ -52,17 +56,17 @@ function Home() {
                     <img
                       src="https://pagedone.io/asset/uploads/1694846673.png"
                       alt="Rounded image "
-                      className="border-2 border-solid border-indigo-50 rounded-full relative z-50 object-cover"
+                      className="border-2 border-solid border-indigo-50 rounded-full relative  object-cover"
                     />
                     <img
                       src="https://pagedone.io/asset/uploads/1694846691.png"
                       alt="Rounded image"
-                      className="border-2 border-solid border-indigo-50 rounded-full relative z-30 -ml-3 object-cover"
+                      className="border-2 border-solid border-indigo-50 rounded-full relative  -ml-3 object-cover"
                     />
                     <img
                       src="https://pagedone.io/asset/uploads/1694846704.png"
                       alt="Rounded image"
-                      className="border-2 border-solid border-indigo-50 rounded-full relative z-20 -ml-3 object-cover"
+                      className="border-2 border-solid border-indigo-50 rounded-full relative  -ml-3 object-cover"
                     />
                   </div>
                   <span className="mt-3 text-base text-gray-600 font-medium lg:ml-3">
@@ -261,9 +265,9 @@ function Home() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <div
-                key={product.id}
+                key={index}
                 className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
               >
                 {/* Product Image */}
@@ -352,7 +356,10 @@ function Home() {
                     <p className="text-2xl font-extrabold text-gray-900">
                       ${product.price}
                     </p>
-                    <button className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800">
+                    <button
+                      onClick={() => handleaddtocart(product.id)}
+                      className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800"
+                    >
                       Add to cart
                     </button>
                   </div>
