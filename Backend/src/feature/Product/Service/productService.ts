@@ -6,20 +6,28 @@ export class ProductService {
     const result = await this.repo.getProductRepository();
     return result;
   };
-  
+
   createProductService = async (
-    name: string,
+    productname: string,
     price: number,
     category: string,
-    quantity: number,
-    rate: number
+    productImage: string | null,
+    stockquantity: number,
+    taxrate: number,
+    description: string
   ) => {
     return await this.repo.createProductRepository(
-      name,
+      productname,
       price,
       category,
-      quantity,
-      rate
+      productImage,
+      stockquantity,
+      taxrate,
+      description
     );
+  };
+
+  deleteProductService = async (id: number) => {
+    return await this.repo.deleteProductRepository(id);
   };
 }

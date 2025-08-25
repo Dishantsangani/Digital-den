@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import backg from "../assets/background.jpg";
 import shopinglist from "../assets/Customer/shopping-list.svg";
+import shopingbag from "../assets/Logo/shopping_bag.png";
 import Navbar from "../Component/Navbar";
 import Footer from "../Component/Footer";
 
@@ -10,8 +11,8 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("https://fakestoreapi.com/products")
-      .then((res) => setproducts(res.data))
+      .get("http://localhost:8080/base/web/getproduct")
+      .then((res) => setproducts(res.data.data))
       .catch((err) => console.log("error", err));
   }, []);
   return (
@@ -92,10 +93,10 @@ function Home() {
               <br />
               Up to 50% OFF!
             </h1>
-            <p className="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg  lg:mb-5 lg:text-xl">
+            <p className="mb-4 max-w-2xl text-gray-500  md:mb-12 md:text-lg  lg:mb-5 lg:text-xl">
               Don't Wait - Limited Stock at Unbeatable Prices!
             </p>
-            <p className="inline-block rounded-lg bg-indigo-600 px-6 py-3.5 text-center font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <p className="inline-block rounded-lg bg-indigo-600 px-6 py-3.5 text-center font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-primary-300">
               Shop Now
             </p>
           </div>
@@ -112,10 +113,10 @@ function Home() {
             />
           </div>
         </div>
-        <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-8 text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6 px-4">
+        <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-8 text-gray-500  sm:grid-cols-3 sm:gap-12 lg:grid-cols-6 px-4">
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-10 hover:text-gray-900 dark:hover:text-white"
+              className="h-10 hover:text-gray-900 "
               viewBox="0 0 106 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +131,7 @@ function Home() {
           </a>
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-8 hover:text-gray-900 dark:hover:text-white"
+              className="h-8 hover:text-gray-900 "
               viewBox="0 0 210 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +144,7 @@ function Home() {
           </a>
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-8 hover:text-gray-900 dark:hover:text-white"
+              className="h-8 hover:text-gray-900 "
               viewBox="0 0 76 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +169,7 @@ function Home() {
           </a>
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-8 hover:text-gray-900 dark:hover:text-white"
+              className="h-8 hover:text-gray-900 "
               viewBox="0 0 97 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +186,7 @@ function Home() {
           </a>
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-8 hover:text-gray-900 dark:hover:text-white"
+              className="h-8 hover:text-gray-900 "
               viewBox="0 0 74 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +215,7 @@ function Home() {
           </a>
           <a href="#" className="flex items-center md:justify-center">
             <svg
-              className="h-6 hover:text-gray-900 dark:hover:text-white"
+              className="h-6 hover:text-gray-900 "
               viewBox="0 0 181 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -244,49 +245,118 @@ function Home() {
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
           {/* Headings */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-600 mb-2">
-              🛍️ Our Products
-            </h1>
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <img
+                src={shopingbag}
+                alt="shopping-bag"
+                className="h-18 w-20 text-indigo-600"
+              />
+              <h1 className="text-3xl font-bold tracking-tight text-gray-600">
+                Our Products
+              </h1>
+            </div>
             <p className="text-lg text-gray-600 font-semibold">
               Shop by Category
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="group  rounded-xl p-4 shadow-lg transition duration-300 ease-in-out"
+                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
               >
-                <a href={product.href}>
-                  <img
-                    alt={product.imageAlt}
-                    src={product.image}
-                    className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-80 xl:aspect-7/8"
-                  />
-                  <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    {product.description?.substring(0, 20) ||
-                      "This is a great product."}
-                  </p>
-                  <div className="mt-2 flex items-center gap-2">
-                    <span className="text-yellow-400 font-medium">
-                      {product.rating.rate} ★
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      ({product.rating.count} reviews)
-                    </span>
-                  </div>
-                  <p className="mt-2 text-lg font-semibold text-gray-900">
-                    ₹ {product.price}
-                  </p>
-                </a>
-                <button
-                  onClick={() => (window.location.href = product.href)}
-                  className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
+                {/* Product Image */}
+                <a
+                  href="#"
+                  className="block h-56 w-full overflow-hidden rounded-lg"
                 >
-                  Buy Now
-                </button>
+                  <img
+                    className="h-full w-full object-cover"
+                    src={`http://localhost:8080${product.productimage}`}
+                    alt={product.productname}
+                  />
+                </a>
+
+                {/* Product Info */}
+                <div className="mt-4">
+                  <span className="inline-block rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800">
+                    Up to {product.taxrate}% off
+                  </span>
+
+                  <h3 className="mt-2 text-lg font-semibold text-gray-900 hover:underline">
+                    {product.productname}
+                  </h3>
+
+                  {/* Rating */}
+                  <div className="mt-2 flex items-center gap-2">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="h-4 w-4 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                      </svg>
+                    ))}
+                    <p className="text-sm font-medium text-gray-900">5.0</p>
+                    <p className="text-sm text-gray-500">(455)</p>
+                  </div>
+
+                  {/* Features */}
+                  <ul className="mt-2 flex items-center gap-4">
+                    <li className="flex items-center gap-2">
+                      <svg
+                        className="h-4 w-4 text-gray-500 "
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+                        />
+                      </svg>
+                      <p className="text-sm font-medium text-gray-500 ">
+                        Fast Delivery
+                      </p>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <svg
+                        className="h-4 w-4 text-gray-500 "
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth={2}
+                          d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+                        />
+                      </svg>
+                      <p className="text-sm font-medium text-gray-500 ">
+                        Best Price
+                      </p>
+                    </li>
+                  </ul>
+
+                  {/* Price & Add to Cart */}
+                  <div className="mt-4 flex items-center justify-between">
+                    <p className="text-2xl font-extrabold text-gray-900">
+                      ${product.price}
+                    </p>
+                    <button className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800">
+                      Add to cart
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -384,6 +454,9 @@ function Home() {
           </div>
         </div>
       </div>
+
+      {/*  */}
+
       <Footer />
     </>
   );

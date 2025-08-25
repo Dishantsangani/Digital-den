@@ -1,6 +1,7 @@
 import dbclient from "../../../db/db.js";
 import {
   CREATE_PRODUCT,
+  DELETE_PRODUCT,
   GET_PRODUCT,
 } from "../../../db/Query/Product/productQuery.js";
 
@@ -11,18 +12,26 @@ export class ProductRepository {
   }
 
   async createProductRepository(
-    name: string,
+    productname: string,
     price: number,
     category: string,
-    quantity: number,
-    rate: number
+    productImage: string | null,
+    stockquantity: number,
+    taxrate: number,
+    description: string
   ) {
     return await dbclient.queryForOne(CREATE_PRODUCT, [
-      name,
+      productname,
       price,
       category,
-      quantity,
-      rate,
+      productImage,
+      stockquantity,
+      taxrate,
+      description,
     ]);
+  }
+
+  async deleteProductRepository(id: number) {
+    return await dbclient.queryForOne(DELETE_PRODUCT, [id]);
   }
 }

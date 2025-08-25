@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import product from "../assets/Admin/Dashboard/product.svg";
 import supplier from "../assets/Admin/Dashboard/supplier.svg";
 import sales from "../assets/Admin/Dashboard/sales.svg";
 
 function Dashboard() {
+  const [getdata, setgetdata] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/base/dashboard/getalldashboard")
+      .then((res) => setgetdata([res.data.data]))
+      .catch((err) => console.log("Geting Data Error", err));
+  }, []);
+
   return (
     <>
       <div className=" flex-col max-w-full">
@@ -16,15 +26,20 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex flex-wrap gap-4 p-4">
-          <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]">
-            <img src={product} alt="product" className="w-5 h-5" />
-            <p className="text-[#0d0f1c] text-base font-medium leading-normal">
-              Total Products
-            </p>
-            <p className="text-[#0d0f1c] tracking-light text-2xl font-bold leading-tight">
-              180
-            </p>
-          </div>
+          {getdata.map((item) => (
+            <div
+              key={item.id}
+              className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]"
+            >
+              <img src={product} alt="product" className="w-5 h-5" />
+              <p className="text-[#0d0f1c] text-base font-medium leading-normal">
+                Total Products
+              </p>
+              <p className="text-[#0d0f1c] tracking-light text-2xl font-bold leading-tight">
+                {item.total_products}
+              </p>
+            </div>
+          ))}
           <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
