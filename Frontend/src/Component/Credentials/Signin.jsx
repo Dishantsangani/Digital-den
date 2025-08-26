@@ -45,7 +45,9 @@ function Signin() {
     setLoading(true);
     try {
       axios
-        .post("http://localhost:8080/base/auth/signin", formdata)
+        .post("http://localhost:8080/base/auth/signin", formdata, {
+          withCredentials: true,
+        })
         .then((res) => {
           notify();
           setLoading(false);

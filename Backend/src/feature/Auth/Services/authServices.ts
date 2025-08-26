@@ -1,7 +1,10 @@
+import { generateCookies } from "../../utils/Cookies/generateCookies.js";
 import {
   hashPassword,
   comparePassword,
 } from "../../utils/Password/hashPassword.js";
+import { UserPayload } from "../../utils/Schema/tokenInterface.js";
+import { generateToken } from "../../utils/Token/generateToken.js";
 import { AuthRepository } from "../Repository/authRepository.js";
 
 export class AuthServices {
@@ -25,7 +28,16 @@ export class AuthServices {
       email,
       hashpassword
     );
-    return result;
+
+    const payload: UserPayload = {
+      id: result.id,
+      email: result.email,
+      role: result.role || "customer",
+      permissions: result.permissions || [],
+    };
+    
+    const token = generateToken(payload);
+    return { user: result, token };
   };
 
   signinServices = async (email: string, password: string) => {
@@ -35,6 +47,14 @@ export class AuthServices {
     const isvalid = await comparePassword(password, user.password);
     if (!isvalid) throw Error("Invalid Credentials");
 
-    return user;
+    const payload: UserPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.role || "customer",
+      permissions: user.permissions || [],
+    };
+    const token = generateToken(payload);
+
+    return { user, token };
   };
 }

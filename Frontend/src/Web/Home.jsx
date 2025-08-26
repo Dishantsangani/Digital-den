@@ -31,7 +31,7 @@ function Home() {
       .catch((err) => console.log("error", err));
   }, []);
 
-  const itemsPerPage = 4; 
+  const itemsPerPage = 4;
   const handleNext = (category) => {
     setCurrentIndexes((prev) => {
       const current = prev[category] || 0;
@@ -50,7 +50,18 @@ function Home() {
   };
 
   const handleaddtocart = (id) => {
-    console.log("cart id", id);
+    try {
+      axios
+        .post()
+        .then((res) => {
+          console.log("Add to cart", res.data);
+        })
+        .catch((err) => {
+          console.log("Add to cart error", err);
+        });
+    } catch (error) {
+      console.log("error: ", error);
+    }
   };
   return (
     <>

@@ -16,6 +16,14 @@ interface Config {
     database: string;
     port: number;
   };
+  smtp: {
+    email: string;
+    password: string;
+  };
+  secret: {
+    jwtsecretkey: string;
+    cookies_secret: string;
+  };
 }
 
 const config: Config = {
@@ -26,6 +34,14 @@ const config: Config = {
     user: process.env.DB_USER || "",
     password: process.env.DB_PASSWORD || "",
     host: process.env.DB_HOST || "",
+  },
+  smtp: {
+    email: process.env.EMAIL_USER || "",
+    password: process.env.EMAIL_PASS || "",
+  },
+  secret: {
+    jwtsecretkey: process.env.JWT_SECRET_KEY || "",
+    cookies_secret: process.env.COOKIES_SECRET || "",
   },
 };
 

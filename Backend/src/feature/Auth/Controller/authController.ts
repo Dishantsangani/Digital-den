@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AuthServices } from "../Services/authServices.js";
 import { StatusCodes } from "../../../utils/config/constants.js";
+import { generateCookies } from "../../utils/Cookies/generateCookies.js";
 
 export class AuthController {
   constructor(private services: AuthServices) {}
@@ -15,6 +16,7 @@ export class AuthController {
         email,
         password
       );
+      await generateCookies(res, result.token);
       return res.status(StatusCodes.CREATED).json({ data: result });
     } catch (error: any) {
       return res
@@ -27,6 +29,7 @@ export class AuthController {
     try {
       const { email, password } = req.body;
       const result = await this.services.signinServices(email, password);
+      await generateCookies(res, result.token);
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
       return res

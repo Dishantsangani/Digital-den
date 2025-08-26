@@ -77,7 +77,9 @@ function Signup() {
     setLoading(true);
     try {
       axios
-        .post("http://localhost:8080/base/auth/signup", formdata)
+        .post("http://localhost:8080/base/auth/signup", formdata, {
+          withCredentials: true,
+        })
         .then((res) => {
           notify();
           setErrors(false);
