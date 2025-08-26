@@ -18,9 +18,9 @@ import Order from "./Admin/Order/Order";
 import Customer from "./Admin/Customer/Customer";
 import Supplier from "./Admin/Supplier/Supplier";
 import Report from "./Admin/Report";
-import Signup from "./Component/Admin/Signup";
-import Signin from "./Component/Admin/Signin";
-import ForgotPassword from "./Component/Admin/ForgotPassword";
+import Signup from "./Component/Credentials/Signup";
+import Signin from "./Component/Credentials/Signin";
+import ForgotPassword from "./Component/Credentials/ForgotPassword";
 import Layout from "./Component/Admin/Layout";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -36,6 +36,9 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Payment />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route element={<Layout />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/products" element={<AdminProducts />} />
@@ -44,9 +47,6 @@ function App() {
             <Route path="/admin/supplier" element={<Supplier />} />
             <Route path="/admin/report" element={<Report />} />
           </Route>
-          <Route path="/admin/signup" element={<Signup />} />
-          <Route path="/admin/signin" element={<Signin />} />
-          <Route path="/admin/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </BrowserRouter>
     </>

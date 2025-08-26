@@ -11,8 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/pg-pool": "^2.0.6",
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "pg": "^8.16.3"
