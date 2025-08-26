@@ -254,6 +254,9 @@ function AdminProducts() {
                   <th className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
                     Price
                   </th>
+                  <th className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
+                    Category
+                  </th>
                   <th className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
                     Stock Quantity
                   </th>
@@ -284,6 +287,9 @@ function AdminProducts() {
                       </td>
                       <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
                         {item.price}
+                      </td>
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                        {item.category}
                       </td>
                       <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
                         {item.stockquantity}
@@ -381,13 +387,15 @@ function AdminProducts() {
                   >
                     <option value="">Select category</option>
                     <option value="electronics">Electronics</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="groceries">Groceries</option>
                     <option value="apparel">Apparel</option>
                     <option value="home-garden">Home & Garden</option>
                     <option value="toys-games">Toys & Games</option>
                     <option value="sports-outdoors">Sports & Outdoors</option>
                     <option value="health-beauty">Health & Beauty</option>
                     <option value="automotive">Automotive</option>
-                    <option value="other">Other</option>
                   </select>
                   {errors.category && (
                     <span className="text-sm text-red-500 mt-1">
@@ -534,14 +542,12 @@ function AdminProducts() {
             </form>
           </div>
         </div>
-        // 
-        
-        // 
       ) : (
+        //
+
+        //
         ""
       )}
-
-      
     </>
   );
 }

@@ -1,1 +1,25 @@
 @import "tailwindcss";
+.product-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.product-title:hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.75;
+  cursor: pointer;
+  color: black;
+}
+.product-desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.product-desc:hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.75;
+  cursor: pointer;
+  color: black;
+}

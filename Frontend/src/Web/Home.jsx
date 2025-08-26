@@ -7,12 +7,26 @@ import Navbar from "../Component/Navbar";
 import Footer from "../Component/Footer";
 
 function Home() {
-  const [products, setproducts] = useState([]);
+  const [productsByCategory, setProductsByCategory] = useState({});
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/base/web/getproduct")
-      .then((res) => setproducts(res.data.data))
+      .then((res) => {
+        const data = res.data?.data || [];
+
+        // Group by category
+        const grouped = data.reduce((acc, product) => {
+          const category = product.category || "Others";
+          if (!acc[category]) {
+            acc[category] = [];
+          }
+          acc[category].push(product);
+          return acc;
+        }, {});
+
+        setProductsByCategory(grouped);
+      })
       .catch((err) => console.log("error", err));
   }, []);
 
@@ -260,112 +274,128 @@ function Home() {
               </h1>
             </div>
             <p className="text-lg text-gray-600 font-semibold">
-              Shop by Category
+              Discover products you’ll love, all in one place.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
-              >
-                {/* Product Image */}
-                <a
-                  href="#"
-                  className="block h-56 w-full overflow-hidden rounded-lg"
+          <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+            <div className="space-y-16">
+              {Object.keys(productsByCategory).map((category) => (
+                <section
+                  key={category}
+                  className="max-w-screen-xl mx-auto  bg-[#FDFDFD] rounded-lg shadow-sm p-6 "
                 >
-                  <img
-                    className="h-full w-full object-cover"
-                    src={`http://localhost:8080${product.productimage}`}
-                    alt={product.productname}
-                  />
-                </a>
+                  <h2 class="mt-3 mb-3 text-xl uppercase font-semibold text-gray-900  sm:text-2xl">
+                    {category}
+                  </h2>
 
-                {/* Product Info */}
-                <div className="mt-4">
-                  <span className="inline-block rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800">
-                    Up to {product.taxrate}% off
-                  </span>
-
-                  <h3 className="mt-2 text-lg font-semibold text-gray-900 hover:underline">
-                    {product.productname}
-                  </h3>
-
-                  {/* Rating */}
-                  <div className="mt-2 flex items-center gap-2">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="h-4 w-4 text-yellow-400"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
+                  {/* Product Grid */}
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {productsByCategory[category].map((product) => (
+                      <div
+                        key={product.id}
+                        className="rounded-lg border border-gray-200  p-6 shadow-sm"
                       >
-                        <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                      </svg>
+                        {/* Product Image */}
+                        <div className="block h-56 w-full overflow-hidden rounded-lg">
+                          <img
+                            className="h-full w-full object-cover"
+                            src={`http://localhost:8080${product.productimage}`}
+                            alt={product.productname}
+                          />
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="mt-4">
+                          <span className="inline-block rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800">
+                            Up to {product.taxrate}% off
+                          </span>
+
+                          <h3 className="mt-2 text-lg font-semibold text-gray-900 hover:underline">
+                            {product.productname}
+                          </h3>
+                          <div className="mt-2 flex items-center gap-2">
+                            {[...Array(5)].map((_, i) => (
+                              <svg
+                                key={i}
+                                className="h-4 w-4 text-yellow-400"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                              </svg>
+                            ))}
+                            <p className="text-sm font-medium text-gray-900">
+                              5.0
+                            </p>
+                            <p className="text-sm text-gray-500">(455)</p>
+                          </div>
+                          {/*  */}
+                          <ul className="mt-2 flex items-center gap-4">
+                            <li className="flex items-center gap-2">
+                              <svg
+                                className="h-4 w-4 text-gray-500 "
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+                                />
+                              </svg>
+                              <p className="text-sm font-medium text-gray-500 ">
+                                Fast Delivery
+                              </p>
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <svg
+                                className="h-4 w-4 text-gray-500 "
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeWidth={2}
+                                  d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+                                />
+                              </svg>
+                              <p className="text-sm font-medium text-gray-500 ">
+                                Best Price
+                              </p>
+                            </li>
+                          </ul>
+                          <p
+                            className="product-desc mt-2 text-lg font-semibold text-gray-600"
+                            title={product.description}
+                          >
+                            {product.description.substring(0, 20)}...
+                          </p>
+                          {/* Price & Add to Cart */}
+                          <div className="mt-4 flex items-center justify-between">
+                            <p className="text-2xl font-extrabold text-gray-900">
+                              ${product.price}
+                            </p>
+                            <button
+                              onClick={() => handleaddtocart(product.id)}
+                              className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800"
+                            >
+                              Add to cart
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     ))}
-                    <p className="text-sm font-medium text-gray-900">5.0</p>
-                    <p className="text-sm text-gray-500">(455)</p>
                   </div>
-
-                  {/* Features */}
-                  <ul className="mt-2 flex items-center gap-4">
-                    <li className="flex items-center gap-2">
-                      <svg
-                        className="h-4 w-4 text-gray-500 "
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
-                        />
-                      </svg>
-                      <p className="text-sm font-medium text-gray-500 ">
-                        Fast Delivery
-                      </p>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <svg
-                        className="h-4 w-4 text-gray-500 "
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeWidth={2}
-                          d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
-                        />
-                      </svg>
-                      <p className="text-sm font-medium text-gray-500 ">
-                        Best Price
-                      </p>
-                    </li>
-                  </ul>
-
-                  {/* Price & Add to Cart */}
-                  <div className="mt-4 flex items-center justify-between">
-                    <p className="text-2xl font-extrabold text-gray-900">
-                      ${product.price}
-                    </p>
-                    <button
-                      onClick={() => handleaddtocart(product.id)}
-                      className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800"
-                    >
-                      Add to cart
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </section>
+              ))}
+            </div>
           </div>
         </div>
       </div>
