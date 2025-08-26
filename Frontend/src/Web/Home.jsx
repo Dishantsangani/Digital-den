@@ -8,6 +8,7 @@ import Footer from "../Component/Footer";
 
 function Home() {
   const [productsByCategory, setProductsByCategory] = useState({});
+  const [currentIndexes, setCurrentIndexes] = useState({});
 
   useEffect(() => {
     axios
@@ -29,6 +30,24 @@ function Home() {
       })
       .catch((err) => console.log("error", err));
   }, []);
+
+  const itemsPerPage = 4; 
+  const handleNext = (category) => {
+    setCurrentIndexes((prev) => {
+      const current = prev[category] || 0;
+      const total = productsByCategory[category].length;
+      const nextIndex = Math.min(current + itemsPerPage, total - itemsPerPage);
+      return { ...prev, [category]: nextIndex };
+    });
+  };
+
+  const handlePrev = (category) => {
+    setCurrentIndexes((prev) => {
+      const current = prev[category] || 0;
+      const prevIndex = Math.max(current - itemsPerPage, 0);
+      return { ...prev, [category]: prevIndex };
+    });
+  };
 
   const handleaddtocart = (id) => {
     console.log("cart id", id);
@@ -277,126 +296,183 @@ function Home() {
               Discover products you’ll love, all in one place.
             </p>
           </div>
-          <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+          {/* Product List */}
+          <div className="mx-auto max-w-xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
             <div className="space-y-16">
-              {Object.keys(productsByCategory).map((category) => (
-                <section
-                  key={category}
-                  className="max-w-screen-xl mx-auto  bg-[#FDFDFD] rounded-lg shadow-sm p-6 "
-                >
-                  <h2 class="mt-3 mb-3 text-xl uppercase font-semibold text-gray-900  sm:text-2xl">
-                    {category}
-                  </h2>
+              {Object.keys(productsByCategory).map((category) => {
+                const current = currentIndexes[category] || 0;
+                const visibleProducts = productsByCategory[category].slice(
+                  current,
+                  current + itemsPerPage
+                );
 
-                  {/* Product Grid */}
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {productsByCategory[category].map((product) => (
-                      <div
-                        key={product.id}
-                        className="rounded-lg border border-gray-200  p-6 shadow-sm"
+                return (
+                  <div className="relative">
+                    {current > 0 && (
+                      <button
+                        onClick={() => handlePrev(category)}
+                        className="absolute left-0 top-1/2 -translate-y-1/3 z-10 p-3 rounded-full bg-gray-100 hover:bg-gray-300"
                       >
-                        {/* Product Image */}
-                        <div className="block h-56 w-full overflow-hidden rounded-lg">
-                          <img
-                            className="h-full w-full object-cover"
-                            src={`http://localhost:8080${product.productimage}`}
-                            alt={product.productname}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="size-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                           />
-                        </div>
-
-                        {/* Product Info */}
-                        <div className="mt-4">
-                          <span className="inline-block rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800">
-                            Up to {product.taxrate}% off
-                          </span>
-
-                          <h3 className="mt-2 text-lg font-semibold text-gray-900 hover:underline">
-                            {product.productname}
-                          </h3>
-                          <div className="mt-2 flex items-center gap-2">
-                            {[...Array(5)].map((_, i) => (
-                              <svg
-                                key={i}
-                                className="h-4 w-4 text-yellow-400"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                              </svg>
-                            ))}
-                            <p className="text-sm font-medium text-gray-900">
-                              5.0
-                            </p>
-                            <p className="text-sm text-gray-500">(455)</p>
-                          </div>
-                          {/*  */}
-                          <ul className="mt-2 flex items-center gap-4">
-                            <li className="flex items-center gap-2">
-                              <svg
-                                className="h-4 w-4 text-gray-500 "
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
-                                />
-                              </svg>
-                              <p className="text-sm font-medium text-gray-500 ">
-                                Fast Delivery
-                              </p>
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <svg
-                                className="h-4 w-4 text-gray-500 "
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeWidth={2}
-                                  d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
-                                />
-                              </svg>
-                              <p className="text-sm font-medium text-gray-500 ">
-                                Best Price
-                              </p>
-                            </li>
-                          </ul>
-                          <p
-                            className="product-desc mt-2 text-lg font-semibold text-gray-600"
-                            title={product.description}
-                          >
-                            {product.description.substring(0, 20)}...
-                          </p>
-                          {/* Price & Add to Cart */}
-                          <div className="mt-4 flex items-center justify-between">
-                            <p className="text-2xl font-extrabold text-gray-900">
-                              ${product.price}
-                            </p>
-                            <button
-                              onClick={() => handleaddtocart(product.id)}
-                              className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800"
-                            >
-                              Add to cart
-                            </button>
-                          </div>
-                        </div>
+                        </svg>
+                      </button>
+                    )}
+                    <section
+                      key={category}
+                      className="max-w-screen-xl  mx-auto bg-[#FDFDFD] rounded-lg shadow-sm p-6 "
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h2 className="text-xl uppercase font-semibold text-gray-900 sm:text-2xl">
+                          {category}
+                        </h2>
                       </div>
-                    ))}
+
+                      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition delay-150 duration-700 ease-in-out">
+                        {visibleProducts.map((product) => (
+                          <div
+                            key={product.id}
+                            className="min-w-[250px] transition delay-150 duration-700 ease-in-out rounded-lg border border-gray-200 p-6 shadow-sm"
+                          >
+                            {/* Product Image */}
+                            <div className="block h-56 w-full overflow-hidden rounded-lg">
+                              <img
+                                className="h-full w-full object-cover"
+                                src={`http://localhost:8080${product.productimage}`}
+                                alt={product.productname}
+                              />
+                            </div>
+
+                            {/* Product Info */}
+                            <div className="mt-4">
+                              <span className="inline-block rounded bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800">
+                                Up to {product.taxrate}% off
+                              </span>
+
+                              <h3 className="mt-2 text-lg font-semibold text-gray-900 hover:underline">
+                                {product.productname}
+                              </h3>
+                              <div className="mt-2 flex items-center gap-2">
+                                {[...Array(5)].map((_, i) => (
+                                  <svg
+                                    key={i}
+                                    className="h-4 w-4 text-yellow-400"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                  </svg>
+                                ))}
+                                <p className="text-sm font-medium text-gray-900">
+                                  5.0
+                                </p>
+                                <p className="text-sm text-gray-500">(455)</p>
+                              </div>
+                              <ul className="mt-2 flex items-center gap-4">
+                                <li className="flex items-center gap-2">
+                                  <svg
+                                    className="h-4 w-4 text-gray-500 "
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+                                    />
+                                  </svg>
+                                  <p className="text-sm font-medium text-gray-500 ">
+                                    Fast Delivery
+                                  </p>
+                                </li>
+                                <li className="flex items-center gap-2">
+                                  <svg
+                                    className="h-4 w-4 text-gray-500 "
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeWidth={2}
+                                      d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+                                    />
+                                  </svg>
+                                  <p className="text-sm font-medium text-gray-500 ">
+                                    Best Price
+                                  </p>
+                                </li>
+                              </ul>
+                              <p
+                                className="mt-2 text-sm text-gray-600"
+                                title={product.description}
+                              >
+                                {product.description.substring(0, 20)}...
+                              </p>
+
+                              {/* Price & Add to Cart */}
+                              <div className="mt-4 flex items-center justify-between">
+                                <p className="text-2xl font-extrabold text-gray-900">
+                                  ${product.price}
+                                </p>
+                                <button
+                                  onClick={() => handleaddtocart(product.id)}
+                                  className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-800"
+                                >
+                                  Add to cart
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {current + itemsPerPage <
+                        productsByCategory[category].length && (
+                        <button
+                          onClick={() => handleNext(category)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full  bg-gray-100 hover:bg-gray-300"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </section>
                   </div>
-                </section>
-              ))}
+                );
+              })}
             </div>
           </div>
+          {/* Product List */}
         </div>
       </div>
 
