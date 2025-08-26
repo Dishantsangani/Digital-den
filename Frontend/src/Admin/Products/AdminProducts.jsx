@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 function AdminProducts() {
   const [model, setmodel] = useState(false);
   const [getdata, setgetdata] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
   const [errors, setErrors] = useState({});
   const [formdata, setformdata] = useState({
     productname: "",
@@ -15,6 +17,9 @@ function AdminProducts() {
     productImage: "",
     description: "",
   });
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = getdata.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlechange = (e) => {
     const { name, value } = e.target;
@@ -272,8 +277,8 @@ function AdminProducts() {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(getdata) &&
-                  getdata.map((item) => (
+                {Array.isArray(currentItems) &&
+                  currentItems.map((item) => (
                     <tr key={item.id} className="border-t border-t-[#ced2e9]">
                       <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-120 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
                         <img
@@ -323,6 +328,40 @@ function AdminProducts() {
                   ))}
               </tbody>
             </table>
+          </div>
+          <div className="flex bottom-0 justify-center items-center gap-3 mt-4">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Prev
+            </button>
+
+            {Array.from(
+              { length: Math.ceil(getdata.length / itemsPerPage) },
+              (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 border rounded ${
+                    currentPage === i + 1 ? "bg-indigo-600 text-white" : ""
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              )
+            )}
+
+            <button
+              disabled={
+                currentPage === Math.ceil(getdata.length / itemsPerPage)
+              }
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              className="px-3 py-1 border rounded disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
@@ -543,9 +582,6 @@ function AdminProducts() {
           </div>
         </div>
       ) : (
-        //
-
-        //
         ""
       )}
     </>
