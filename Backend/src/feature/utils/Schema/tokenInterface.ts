@@ -1,16 +1,12 @@
+import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 
-export interface DecodedUser {
-  id: number;
-  email: string;
-  role: string;
-}
-export interface AuthenticatedRequest {
-  user?: DecodedUser;
+export interface AuthRequest extends Request {
+  user?: any;
 }
 
 export interface UserPayload extends JwtPayload {
-  id: number;
+  user_id: number;
   email: string;
   role: string;
   permissions: string[];

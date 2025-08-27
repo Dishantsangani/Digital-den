@@ -12,13 +12,14 @@ export class AuthRepository {
     email: string,
     hashpassword: string
   ) {
-    return await dbclient.queryForOne(SIGNUP_USER, [
+    const result = await dbclient.queryForOne(SIGNUP_USER, [
       firstname,
       lastname,
       phonenumber,
       email,
       hashpassword,
     ]);
+    return result;
   }
 
   async findEmailRepository(email: string) {

@@ -5,10 +5,32 @@ import shopinglist from "../assets/Customer/shopping-list.svg";
 import shopingbag from "../assets/Logo/shopping_bag.png";
 import Navbar from "../Component/Navbar";
 import Footer from "../Component/Footer";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 function Home() {
+  const navigate = useNavigate();
   const [productsByCategory, setProductsByCategory] = useState({});
   const [currentIndexes, setCurrentIndexes] = useState({});
+
+  const itemsPerPage = 4;
+
+  const handleNext = (category) => {
+    setCurrentIndexes((prev) => {
+      const current = prev[category] || 0;
+      const total = productsByCategory[category].length;
+      const nextIndex = Math.min(current + itemsPerPage, total - itemsPerPage);
+      return { ...prev, [category]: nextIndex };
+    });
+  };
+
+  const handlePrev = (category) => {
+    setCurrentIndexes((prev) => {
+      const current = prev[category] || 0;
+      const prevIndex = Math.max(current - itemsPerPage, 0);
+      return { ...prev, [category]: prevIndex };
+    });
+  };
 
   useEffect(() => {
     axios
@@ -31,41 +53,67 @@ function Home() {
       .catch((err) => console.log("error", err));
   }, []);
 
-  const itemsPerPage = 4;
-  const handleNext = (category) => {
-    setCurrentIndexes((prev) => {
-      const current = prev[category] || 0;
-      const total = productsByCategory[category].length;
-      const nextIndex = Math.min(current + itemsPerPage, total - itemsPerPage);
-      return { ...prev, [category]: nextIndex };
-    });
-  };
-
-  const handlePrev = (category) => {
-    setCurrentIndexes((prev) => {
-      const current = prev[category] || 0;
-      const prevIndex = Math.max(current - itemsPerPage, 0);
-      return { ...prev, [category]: prevIndex };
-    });
-  };
-
   const handleaddtocart = (id) => {
     try {
       axios
-        .post()
+        .post(
+          "http://localhost:8080/base/auth/cart/addtocart",
+          {
+            productid: id,
+            quantity: 1,
+          },
+          { withCredentials: true }
+        )
         .then((res) => {
+          toast.success("New Product Add To Cart !", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
           console.log("Add to cart", res.data);
         })
-        .catch((err) => {
-          console.log("Add to cart error", err);
+        .catch((error) => {
+          if (error.response?.status === 401) {
+            navigate("/signin");
+          } else {
+            toast.error(
+              error?.response?.data?.message || "Something went wrong!",
+              {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              }
+            );
+          }
         });
     } catch (error) {
-      console.log("error: ", error);
+      toast.error(error?.response?.data?.message || "Something went wrong!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <section className="lg:pl-8 h-full">
         <div className="rounded-2xl bg-indigo-50 py-10 overflow-hidden m-5 lg:m-0 2xl:py-16 xl:py-8  lg:rounded-tl-2xl lg:rounded-bl-2xl ">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

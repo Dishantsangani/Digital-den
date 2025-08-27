@@ -1,4 +1,3 @@
-import { generateCookies } from "../../utils/Cookies/generateCookies.js";
 import {
   hashPassword,
   comparePassword,
@@ -21,7 +20,8 @@ export class AuthServices {
     if (isExists) throw Error("User is Alreeady Exists");
 
     const hashpassword = await hashPassword(password);
-    const result = await this.repo.signupRepository(
+
+    const user = await this.repo.signupRepository(
       firstname,
       lastname,
       phonenumber,
@@ -30,14 +30,14 @@ export class AuthServices {
     );
 
     const payload: UserPayload = {
-      id: result.id,
-      email: result.email,
-      role: result.role || "customer",
-      permissions: result.permissions || [],
+      user_id: user.user_id,
+      email: user.email,
+      role: user.role || "customer",
+      permissions: user.permissions || [],
     };
-    
+
     const token = generateToken(payload);
-    return { user: result, token };
+    return { user: user, token };
   };
 
   signinServices = async (email: string, password: string) => {
@@ -48,11 +48,12 @@ export class AuthServices {
     if (!isvalid) throw Error("Invalid Credentials");
 
     const payload: UserPayload = {
-      id: user.id,
+      user_id: user.user_id,
       email: user.email,
       role: user.role || "customer",
       permissions: user.permissions || [],
     };
+
     const token = generateToken(payload);
 
     return { user, token };

@@ -116,6 +116,7 @@ function AdminProducts() {
     }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -152,9 +153,32 @@ function AdminProducts() {
           notify();
           setErrors({});
         })
-        .catch((err) => console.log("Api Error", err));
+        .catch((error) => {
+          toast.error(
+            error?.response?.data?.message || "Something went wrong!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            }
+          );
+        });
     } catch (error) {
-      console.log("error: ", error);
+      toast.error(error?.response?.data?.message || "Something went wrong!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -163,11 +187,44 @@ function AdminProducts() {
       axios
         .delete(`http://localhost:8080/base/web/deleteproduct/${id}`)
         .then((res) => {
-          console.log("product deleted", res.data), deletenotify();
+          console.log("product deleted", res.data);
+          toast.info("Product Deleted Successfully!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         })
-        .catch((err) => console.log("Delete Product", err));
+        .catch((error) => {
+          toast.error(
+            error?.response?.data?.message || "Something went wrong!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            }
+          );
+        });
     } catch (error) {
-      console.log("delete product Error", error);
+      toast.error(error?.response?.data?.message || "Something went wrong!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -175,7 +232,18 @@ function AdminProducts() {
     axios
       .get("http://localhost:8080/base/web/getproduct")
       .then((res) => setgetdata(res.data.data))
-      .catch((err) => console.log("get product error", err));
+      .catch((error) => {
+        toast.error(error?.response?.data?.message || "Something went wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
   }, []);
 
   const notify = () =>
@@ -190,18 +258,6 @@ function AdminProducts() {
       theme: "light",
     });
 
-  const deletenotify = () => {
-    toast.error("Product Deleted Successfully!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  };
   return (
     <>
       <div className="layout-content-container flex flex-col max-w-full">
