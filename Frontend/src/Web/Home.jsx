@@ -180,7 +180,7 @@ function Home() {
         </div>
       </section>
 
-      {/*  */}
+      {/* Limited Offer Part */}
       <section className="bg-white py-8 antialiased  md:py-16">
         <div className="mx-auto grid max-w-screen-xl px-4 pb-8 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
           <div className="content-center justify-self-start md:col-span-7 md:text-start ">
@@ -337,6 +337,7 @@ function Home() {
         </div>
       </section>
       {/*  */}
+
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
           {/* Headings */}
@@ -356,7 +357,7 @@ function Home() {
             </p>
           </div>
           {/* Product List */}
-          <div className="mx-auto max-w-xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+          <div className="mx-auto shadow-xl rounded-xl max-w-xl px-4 py-8 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
             <div className="space-y-16">
               {Object.keys(productsByCategory).map((category) => {
                 const current = currentIndexes[category] || 0;
@@ -515,7 +516,7 @@ function Home() {
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="size-6"
+                            className="size-6"
                           >
                             <path
                               stroke-linecap="round"
@@ -535,9 +536,42 @@ function Home() {
         </div>
       </div>
 
-      {/*  */}
-      <div className="relative overflow-hidden bg-white">
-        <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
+      {/* Horizonal Part */}
+      <div className="w-full px-6 py-16 lg:px-44">
+        <div className="p-10 rounded-lg shadow-xl bg-white">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            {/* Left Content */}
+            <div className="mb-6 lg:mb-0 lg:w-1/2 lg:pr-10">
+              <h2 className="font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl leading-snug">
+                Discover the future of <br />
+                <span className="inline-block text-indigo-600">
+                  Digital Shopping
+                </span>{" "}
+                with Digital Den
+              </h2>
+            </div>
+
+            {/* Right Content */}
+            <div className="lg:w-1/2">
+              <p className="mb-6 text-lg text-gray-700">
+                At{" "}
+                <span className="font-semibold text-indigo-600">
+                  Digital Den
+                </span>
+                , we bring you a seamless online shopping experience. From the
+                latest gadgets and electronics to everyday essentials, we make
+                it simple, fast, and reliable. Our secure checkout, premium
+                product quality, and quick delivery ensure that your shopping is
+                stress-free and rewarding.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Image content */}
+      <div className="relative overflow-hidden bg-white mt-15">
+        <div className="pt-16 pb-96 sm:pt-24 sm:pb-48 lg:pt-40">
           <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
             <div className="sm:max-w-lg">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -548,6 +582,7 @@ function Home() {
                 harsh elements of a world that doesn't care if you live or die.
               </p>
             </div>
+
             <div>
               <div className="mt-10">
                 {/* Decorative image grid */}
@@ -555,66 +590,76 @@ function Home() {
                   aria-hidden="true"
                   className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
                 >
-                  <div className="absolute transform sm:top-0 sm:left-1/2 sm:translate-x-8 lg:top-1/2 lg:left-1/2 lg:translate-x-8 lg:-translate-y-1/2">
+                  <div
+                    className="absolute transform sm:top-0 sm:left-1/2 sm:translate-x-8 
+                            lg:top-1/2 lg:left-1/2 lg:translate-x-8 lg:-translate-y-1/2"
+                  >
                     <div className="flex items-center space-x-6 lg:space-x-8">
+                      {/* Column 1 */}
                       <div className="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                        <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
+                        <div className="w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
                       </div>
+
+                      {/* Column 2 */}
                       <div className="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
                       </div>
+
+                      {/* Column 3 */}
                       <div className="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
-                        <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <div className="w-44 overflow-hidden rounded-lg">
                           <img
                             src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
                             alt=""
-                            className="size-full object-cover"
+                            className="w-full h-auto object-cover"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                {/* CTA Button */}
                 <a
                   href="#"
                   className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
@@ -627,7 +672,89 @@ function Home() {
         </div>
       </div>
 
-      {/*  */}
+      {/* Testimonal */}
+      <section className="bg-white">
+        <div className="container mx-auto">
+          <div className="py-5">
+            <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">
+              What our <span className="text-indigo-600">clients</span> say
+            </h1>
+            <p className="max-w-2xl mx-auto mt-6 text-center text-gray-800">
+              At{" "}
+              <span className="font-semibold text-indigo-600">Digital Den</span>
+              , customer satisfaction is at the heart of everything we do.
+              Here’s what some of our amazing clients say about their experience
+              with us.
+            </p>
+          </div>
+
+          <div className="grid py-10 lg:mb-20 grid-cols-1 gap-8 mx-auto mt-8 lg:grid-cols-2 xl:grid-cols-3 xl:mt-10 max-w-7xl">
+            {/* Testimonial 1 */}
+            <div className="bg-gray-100 rounded-lg p-8 shadow-sm hover:shadow-md transition">
+              <p className="leading-loose text-gray-600 italic">
+                “Digital Den made my online shopping so effortless. The checkout
+                was smooth, delivery was quick, and the support team was always
+                ready to help. Truly a premium experience!”
+              </p>
+              <div className="flex items-center mt-6">
+                <img
+                  className="object-cover rounded-full w-14 h-14"
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="client"
+                />
+                <div className="mx-4">
+                  <h1 className="font-semibold text-indigo-600">Arjun Mehta</h1>
+                  <span className="text-sm text-gray-500">
+                    Entrepreneur, TechNova
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-gray-100 rounded-lg p-8 shadow-sm hover:shadow-md transition">
+              <p className="leading-loose text-gray-600 italic">
+                “I was amazed by the product variety and quality. Digital Den is
+                now my go-to e-commerce store for both personal and business
+                purchases. Highly recommended!”
+              </p>
+              <div className="flex items-center mt-6">
+                <img
+                  className="object-cover rounded-full w-14 h-14"
+                  src="https://randomuser.me/api/portraits/women/44.jpg"
+                  alt="client"
+                />
+                <div className="mx-4">
+                  <h1 className="font-semibold text-indigo-600">Neha Sharma</h1>
+                  <span className="text-sm text-gray-500">
+                    Marketing Manager, BrightEdge
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-gray-100 rounded-lg p-8 shadow-sm hover:shadow-md transition">
+              <p className="leading-loose text-gray-600 italic">
+                “From browsing to delivery, the experience was seamless. The
+                loyalty rewards and quick customer service make Digital Den
+                stand out in the crowded e-commerce space.”
+              </p>
+              <div className="flex items-center mt-6">
+                <img
+                  className="object-cover rounded-full w-14 h-14"
+                  src="https://randomuser.me/api/portraits/men/55.jpg"
+                  alt="client"
+                />
+                <div className="mx-4">
+                  <h1 className="font-semibold text-indigo-600">Rohit Verma</h1>
+                  <span className="text-sm text-gray-500">CTO, PixelWorks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </>

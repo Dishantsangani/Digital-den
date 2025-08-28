@@ -14,6 +14,14 @@ export class CartRouter {
 
     cartRouter.route("/getcart").get(authMiddleware, this.controller.getCart);
 
+    cartRouter
+      .route("/deletecart/:id")
+      .delete(authMiddleware, this.controller.deleteToCartItem);
+
+    cartRouter
+      .route("/updatecart/:id")
+      .put(authMiddleware, this.controller.updateToCartItem);
+
     return cartRouter;
   }
 }

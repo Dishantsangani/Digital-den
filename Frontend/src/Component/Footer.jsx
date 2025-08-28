@@ -8,7 +8,7 @@ function Footer() {
       <footer className="bg-gray-200">
         <div className="container px-6 py-8 mx-auto">
           <div className="flex flex-col items-center text-center">
-            <img width={140} height={25} src={logo} alt="" />
+            <img width={60} height={25} src={logo} alt="" />
             <div className="flex flex-wrap justify-center mt-6 -mx-4">
               <Link
                 to={"/"}
