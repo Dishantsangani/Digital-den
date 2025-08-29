@@ -6,6 +6,7 @@ import Products from "./Pages/Web/Products";
 import Team from "./Pages/Web/Team";
 import Contact from "./Pages/Web/Contact";
 import Payment from "./Pages/Web/Payment";
+import Order from "./Pages/Web/Order";
 
 // Authentication
 import Signup from "./Component/Auth/Signup";
@@ -15,7 +16,7 @@ import ForgotPassword from "./Component/Auth/ForgotPassword";
 // Admin
 import Dashboard from "./Pages/Admin/Dashboard";
 import AdminProducts from "./Pages/Admin/Products/AdminProducts";
-import Order from "./Pages/Admin/Order/Order";
+import Adminorder from "./Pages/Admin/Order/Adminorder";
 import Customer from "./Pages/Admin/Customer/Customer";
 import Supplier from "./Pages/Admin/Supplier/Supplier";
 import Report from "./Pages/Admin/Report";
@@ -42,6 +43,7 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/checkout" element={<Payment />} />
+              <Route path="/order" element={<Order />} />
             </Route>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
@@ -51,7 +53,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/products" element={<AdminProducts />} />
-              <Route path="/admin/order" element={<Order />} />
+              <Route path="/admin/order" element={<Adminorder />} />
               <Route path="/admin/customer" element={<Customer />} />
               <Route path="/admin/supplier" element={<Supplier />} />
               <Route path="/admin/report" element={<Report />} />

@@ -23,7 +23,7 @@ function Customer() {
     if (!formdata.customername.trim()) {
       newerror.customername = "Please Enter Customer Name";
     } else if (formdata.customername.length < 5) {
-      newerror.customername = "Please Enter Customer Name Min 5 Char";
+      newerror.customername = "Please Enter Customer Name Min 5 character";
     }
     if (!formdata.customeremail.trim()) {
       newerror.customeremail = "Please Enter Customer Email";
@@ -43,7 +43,7 @@ function Customer() {
     if (!formdata.customeraddress.trim()) {
       newerror.customeraddress = "Please Enter Customer Address ";
     } else if (formdata.customeraddress.length < 15) {
-      newerror.customeraddress = "Please Enter Customer Address Min 15 Char";
+      newerror.customeraddress = "Please Enter Customer Address Min 15 character ";
     }
     seterrors(newerror);
   };

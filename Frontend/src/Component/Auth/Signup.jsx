@@ -24,14 +24,14 @@ function Signup() {
     if (!formdata.firstname.trim()) {
       newErrors.firstname = "firstname Is Required";
     } else if (formdata.firstname.length < 4) {
-      newErrors.firstname = "firstname Must be 4 Char";
+      newErrors.firstname = "firstname Must be 4 character ";
     }
 
     // lastname
     if (!formdata.lastname.trim()) {
       newErrors.lastname = "lastname Is Required";
     } else if (formdata.lastname.length < 4) {
-      newErrors.lastname = "lastname Must be 4 Char";
+      newErrors.lastname = "lastname Must be 4 character ";
     }
 
     // Phone Number

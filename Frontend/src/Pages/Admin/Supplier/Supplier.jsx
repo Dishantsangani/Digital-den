@@ -22,7 +22,7 @@ function Supplier() {
     if (!formdata.name.trim()) {
       newerror.name = "Please Enter Supplier Name";
     } else if (formdata.name.length < 5) {
-      newerror.name = "Please Enter Supplier Name min 5 Char";
+      newerror.name = "Please Enter Supplier Name min 5 character ";
     }
     if (!formdata.email.trim()) {
       newerror.email = "Please Enter Supplier Email";
@@ -37,12 +37,12 @@ function Supplier() {
     if (!formdata.companyname.trim()) {
       newerror.companyname = "Please Enter Company Name";
     } else if (formdata.companyname.length < 5) {
-      newerror.companyname = "Please Enter Company Name min 5 Char";
+      newerror.companyname = "Please Enter Company Name min 5 character ";
     }
     if (!formdata.address.trim()) {
       newerror.address = "Please Enter address";
     } else if (formdata.address.length < 5) {
-      newerror.address = "Please Enter Customer Address Min 15 Char";
+      newerror.address = "Please Enter Customer Address Min 15 character ";
     }
 
     seterrors(newerror);

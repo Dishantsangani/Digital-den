@@ -77,13 +77,13 @@ function AdminProducts() {
     if (!formdata.productname.trim()) {
       newErrors.productname = "Please Enter ProductName";
     } else if (formdata.productname.length < 5) {
-      newErrors.productname = " ProductName Minmum 5 Char";
+      newErrors.productname = " ProductName Minmum 5 character ";
     }
     // description
     if (!formdata.description.trim()) {
       newErrors.description = "Please Enter Product description";
     } else if (formdata.description.length < 5) {
-      newErrors.description = " Product description Minmum 5 Char";
+      newErrors.description = " Product description Minmum 5 character ";
     }
     // price
     if (

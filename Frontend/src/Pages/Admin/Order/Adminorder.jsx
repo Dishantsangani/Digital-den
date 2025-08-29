@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-function Order() {
+function Adminorder() {
   const [model, setmodel] = useState(false);
   const [errors, seterrors] = useState({});
 
@@ -27,12 +27,12 @@ function Order() {
     if (!formdata.customername.trim()) {
       newErrors.customername = "Please Enter Customername";
     } else if (formdata.customername.length < 5) {
-      newErrors.customername = "Please Enter Customername min 5 Char";
+      newErrors.customername = "Please Enter Customername min 5 character ";
     }
     if (!formdata.product.trim()) {
       newErrors.product = "Please Enter product";
     } else if (formdata.product.length < 5) {
-      newErrors.product = "Please Enter product min 5 Char";
+      newErrors.product = "Please Enter product min 5 character ";
     }
 
     if (
@@ -475,4 +475,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default Adminorder;
