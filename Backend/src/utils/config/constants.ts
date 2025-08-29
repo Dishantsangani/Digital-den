@@ -22,7 +22,7 @@ export const kMessages = {
   USER_NOT_FOUNND: "User not found",
   LOGIN_SUCCESS: "Login successfully",
   EMAIL_SENT: "Email sent successfully",
-  SET_PASSWORD: "Password set  successfully",
+  SET_PASSWORD: "Password set successfully",
   ACCESS_DENIED: "Access denied ",
   UPDATE_USER_STATUS: "User status updated successfully",
   USER_DELETED: "User deleted  successfully",

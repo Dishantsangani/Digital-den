@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/Logo/Navbarlogo.png";
+import logo from "../../assets/Common/Navbarlogo.png";
 
 function Footer() {
   return (
-    <footer className="bg-[#FFFFFF] z-50 ">
+    <footer className="bg-gray-100 z-50 ">
       <div className="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
-        <img width={140} height={25} src={logo} />
+        <img src={logo} className="h-14 w-auto object-contain" />
         <p className="text-sm text-gray-600 ">
           © Copyright 2025. All Rights Reserved By{" "}
           <Link

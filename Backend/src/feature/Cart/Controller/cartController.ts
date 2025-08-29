@@ -11,13 +11,13 @@ export class CartController {
       const userid = Number(req.user?.user_id);
       const { productid, quantity } = req.body;
 
-      const cart = await this.services.addToCartServices(
+      const result = await this.services.addToCartServices(
         productid,
         quantity,
         userid
       );
 
-      return res.status(StatusCodes.CREATED).json({ data: cart });
+      return res.status(StatusCodes.CREATED).json({ data: result });
     } catch (error: any) {
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)

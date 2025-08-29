@@ -1,13 +1,12 @@
 import React from "react";
 import navimg from "../../assets/Admin/Navbar/navbarimage.png";
-import logo from "../../assets/Logo/Navbarlogo.png";
+import logo from "../../assets/Common/Navbarlogo.png";
 
 function Navbar() {
   return (
     <>
-      <div className="w-full fixed top-0 left-0 z-50 flex items-center justify-between px-6 py-3 bg-[#fff] shadow-sm border-b">
-        {/* Left section - Logo/Title */}
-        <img width={140} height={25} src={logo} />
+      <div className="w-full  fixed top-0 left-0 z-50 flex items-center justify-between px-6 py-3 bg-gray-100 shadow-sm border-b">
+        <img className="h-14 w-auto object-contain" src={logo} />
 
         {/* Right section */}
         <div className="flex items-center space-x-4">

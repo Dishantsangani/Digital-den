@@ -8,6 +8,8 @@ export class AuthRouter {
 
     authRouter.route("/signup").post(this.controller.signup);
     authRouter.route("/signin").post(this.controller.singin);
+    authRouter.route("/forgot-password").post(this.controller.forgotPassword);
+    authRouter.route("/set-password").post(this.controller.setPassword);
 
     return authRouter;
   }
