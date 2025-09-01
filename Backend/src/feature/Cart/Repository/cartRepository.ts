@@ -4,8 +4,11 @@ import {
   ADD_TO_CART_ITEMS,
   DELETE_CART_ITEMS,
   FIND_CART,
+  FIND_CART_ITEM_BY_ID,
+  FIND_CART_ITEM_QTY,
   FIND_CART_ITEMS,
   FIND_PRODUCT_PRICE,
+  FIND_PRODUCT_STOCK,
   GET_CART_ITEMS,
   GET_SUBTOTAL,
   UPDATE_CART_ITEMS,
@@ -76,5 +79,20 @@ export class CartRepository {
 
   subTotalRepository = async (userid: number) => {
     return await dbclient.queryForOne(GET_SUBTOTAL, [userid]);
+  };
+
+  // get product stock
+  findProductStockRepository = async (productId: number) => {
+    return await dbclient.queryForOne(FIND_PRODUCT_STOCK, [productId]);
+  };
+
+  // how many already in cart (for this product)
+  findCartItemQtyRepository = async (cartId: number, productId: number) => {
+    return await dbclient.queryForOne(FIND_CART_ITEM_QTY, [cartId, productId]);
+  };
+
+  // when updating by cart_item id, get (cart_id, product_id)
+  findCartItemByIdRepository = async (itemId: number) => {
+    return await dbclient.queryForOne(FIND_CART_ITEM_BY_ID, [itemId]);
   };
 }

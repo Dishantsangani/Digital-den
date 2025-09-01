@@ -1,6 +1,122 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Toastifyerror,
+  Toastitysuccess,
+} from "../../Component/Notification/Toastitynotificaition";
+import { addcheckoutApi, getcheckoutApi } from "../../API/Checkout/checkoutApi";
+import cashondelivery from "../../assets/Web/Payment/cashondeliverytruck.png";
 
 function Payment() {
+  const [formdata, setformdata] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phonenumber: "",
+    addressline: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    payment: "",
+  });
+  const [error, seterror] = useState({});
+  const [checkoutdata, setcheckoutdata] = useState([]);
+
+  const validation = () => {
+    const newerror = {};
+
+    // Firstname
+    if (!formdata.firstname.trim()) {
+      newerror.firstname = "firstname is required";
+    } else if (formdata.firstname.length < 4) {
+      newerror.firstname = "firstname is must be 4 character";
+    }
+
+    // lastname
+    if (!formdata.lastname.trim()) {
+      newerror.lastname = "lastname is required";
+    } else if (formdata.lastname.length < 4) {
+      newerror.lastname = "lastname is must be 4 character";
+    }
+
+    // email
+    if (!formdata.email.trim()) {
+      newerror.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formdata.email)) {
+      newerror.email = "Invalid email format";
+    }
+
+    // Phonenumber
+    if (!formdata.phonenumber.trim()) {
+      newerror.phonenumber = "phonenumber is required";
+    } else if (formdata.phonenumber.length < 10) {
+      newerror.phonenumber = "phonenumber is must be 10 digits";
+    }
+
+    // addressline
+    if (!formdata.addressline.trim()) {
+      newerror.addressline = "addressline is required";
+    } else if (formdata.addressline.length < 10) {
+      newerror.addressline = "addressline is must be 10 digits";
+    }
+
+    // city
+    if (!formdata.city.trim()) {
+      newerror.city = "city is required";
+    } else if (formdata.city.length < 4) {
+      newerror.city = "city is must be 4 character";
+    }
+
+    // state
+    if (!formdata.state.trim()) {
+      newerror.state = "state is required";
+    } else if (formdata.state.length < 4) {
+      newerror.state = "state is must be 4 character";
+    }
+
+    // zipcode
+    if (!formdata.zipcode.trim()) {
+      newerror.zipcode = "zipcode is required";
+    } else if (formdata.zipcode.length < 4) {
+      newerror.zipcode = "zipcode is must be 4 character";
+    }
+
+    // payment
+    if (!formdata.payment) {
+      newerror.payment = "Please select a payment method";
+    }
+
+    seterror(newerror);
+    return Object.keys(newerror).length === 0;
+  };
+
+  const handlechange = (e) => {
+    const { name, value } = e.target;
+    setformdata({ ...formdata, [name]: value });
+  };
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    if (!validation()) return;
+    try {
+      const res = await addcheckoutApi(formdata);
+      console.log("res: ", res);
+      Toastitysuccess("Checkout Successfully");
+    } catch (error) {
+      Toastifyerror(error);
+    }
+  };
+
+  const checkout = async () => {
+    try {
+      const res = await getcheckoutApi();
+      setcheckoutdata(res.data);
+    } catch (error) {
+      Toastifyerror(error);
+    }
+  };
+  useEffect(() => {
+    checkout();
+  }, []);
   return (
     <>
       <div className="bg-white sm:px-8 px-4 py-6">
@@ -41,9 +157,9 @@ function Payment() {
               </div>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 lg:gap-x-12">
-            <div className="lg:col-span-2">
-              <form>
+          <form onSubmit={handlesubmit}>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 lg:gap-x-12">
+              <div className="lg:col-span-2">
                 <div>
                   <h2 className="text-xl text-slate-900 font-semibold mb-6">
                     Delivery Details
@@ -55,9 +171,15 @@ function Payment() {
                       </label>
                       <input
                         type="text"
+                        name="firstname"
+                        value={formdata.firstname}
+                        onChange={handlechange}
                         placeholder="Enter First Name"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.firstname && (
+                        <p className="text-red-400">{error.firstname}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -65,9 +187,15 @@ function Payment() {
                       </label>
                       <input
                         type="text"
+                        name="lastname"
+                        value={formdata.lastname}
+                        onChange={handlechange}
                         placeholder="Enter Last Name"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.lastname && (
+                        <p className="text-red-400">{error.lastname}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -75,9 +203,15 @@ function Payment() {
                       </label>
                       <input
                         type="email"
+                        name="email"
+                        onChange={handlechange}
+                        value={formdata.email}
                         placeholder="Enter Email"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.email && (
+                        <p className="text-red-400">{error.email}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -85,9 +219,15 @@ function Payment() {
                       </label>
                       <input
                         type="number"
+                        name="phonenumber"
+                        value={formdata.phonenumber}
+                        onChange={handlechange}
                         placeholder="Enter Phone No."
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.phonenumber && (
+                        <p className="text-red-400">{error.phonenumber}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -95,9 +235,15 @@ function Payment() {
                       </label>
                       <input
                         type="text"
+                        name="addressline"
+                        value={formdata.addressline}
+                        onChange={handlechange}
                         placeholder="Enter Address Line"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.addressline && (
+                        <p className="text-red-400">{error.addressline}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -105,9 +251,15 @@ function Payment() {
                       </label>
                       <input
                         type="text"
+                        name="city"
+                        onChange={handlechange}
+                        value={formdata.city}
                         placeholder="Enter City"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.city && (
+                        <p className="text-red-400">{error.city}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
@@ -115,19 +267,31 @@ function Payment() {
                       </label>
                       <input
                         type="text"
+                        name="state"
+                        onChange={handlechange}
+                        value={formdata.state}
                         placeholder="Enter State"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.state && (
+                        <p className="text-red-400">{error.state}</p>
+                      )}
                     </div>
                     <div>
                       <label className="text-sm text-slate-900 font-medium block mb-2">
                         Zip Code
                       </label>
                       <input
-                        type="text"
+                        type="number"
+                        name="zipcode"
+                        value={formdata.zipcode}
+                        onChange={handlechange}
                         placeholder="Enter Zip Code"
                         className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                       />
+                      {error.zipcode && (
+                        <p className="text-red-400">{error.zipcode}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -141,110 +305,120 @@ function Payment() {
                         <div className="flex items-center">
                           <input
                             type="radio"
-                            name="method"
+                            name="payment"
+                            value="cash"
+                            checked={formdata.payment === "cash"}
                             className="w-5 h-5 cursor-pointer"
-                            id="card"
-                            defaultChecked=""
+                            onChange={handlechange}
                           />
+
                           <label
                             htmlFor="card"
                             className="ml-4 flex gap-2 cursor-pointer"
                           >
                             <img
-                              src="https://readymadeui.com/images/visa.webp"
-                              className="w-12"
-                              alt="card1"
-                            />
-                            <img
-                              src="https://readymadeui.com/images/american-express.webp"
-                              className="w-12"
-                              alt="card2"
-                            />
-                            <img
-                              src="https://readymadeui.com/images/master.webp"
-                              className="w-12"
+                              src={cashondelivery}
+                              className="w-15"
                               alt="card3"
                             />
                           </label>
                         </div>
                       </div>
                       <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Pay with your debit or credit card
+                        Cash On Delevary
                       </p>
+                      {error.payment && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {error.payment}
+                        </p>
+                      )}
                     </div>
                     <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
                       <div>
                         <div className="flex items-center">
                           <input
                             type="radio"
-                            name="method"
+                            name="payment"
+                            value="stripe"
+                            checked={formdata.payment === "stripe"}
+                            onChange={handlechange}
                             className="w-5 h-5 cursor-pointer"
-                            id="paypal"
                           />
+
                           <label
                             htmlFor="paypal"
                             className="ml-4 flex gap-2 cursor-pointer"
                           >
                             <img
-                              src="https://readymadeui.com/images/paypal.webp"
-                              className="w-20"
-                              alt="paypalCard"
+                              src="https://memberpress.com/wp-content/uploads/2017/09/Integrations-Stripe-1724x970-1.svg"
+                              className="w-25"
+                              alt="Stripe"
                             />
                           </label>
                         </div>
                       </div>
                       <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Pay with your paypal account
+                        Pay with your Stripe account
                       </p>
+                      {error.payment && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {error.payment}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-            <div className="relative">
-              <h2 className="text-xl text-slate-900 font-semibold mb-6">
-                Order Summary
-              </h2>
-              <ul className="text-slate-500 font-medium space-y-4">
-                <li className="flex flex-wrap gap-4 text-sm">
-                  Subtotal{" "}
-                  <span className="ml-auto font-semibold text-slate-900">
-                    $72.00
-                  </span>
-                </li>
-                <li className="flex flex-wrap gap-4 text-sm">
-                  Discount{" "}
-                  <span className="ml-auto font-semibold text-slate-900">
-                    $0.00
-                  </span>
-                </li>
-                <li className="flex flex-wrap gap-4 text-sm">
-                  Shipping{" "}
-                  <span className="ml-auto font-semibold text-slate-900">
-                    $6.00
-                  </span>
-                </li>
-                <li className="flex flex-wrap gap-4 text-sm">
-                  Tax{" "}
-                  <span className="ml-auto font-semibold text-slate-900">
-                    $5.00
-                  </span>
-                </li>
-                <hr className="border-slate-300" />
-                <li className="flex flex-wrap gap-4 text-[15px] font-semibold text-slate-900">
-                  Total <span className="ml-auto">$83.00</span>
-                </li>
-              </ul>
-              <div className="space-y-4 mt-8">
-                <button
-                  type="button"
-                  className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
-                >
-                  Complete Purchase
-                </button>
+              </div>
+              <div className="relative">
+                {checkoutdata?.summary && (
+                  <div className="p-4 border rounded-md mb-4">
+                    <h2 className="text-xl text-slate-900 font-semibold mb-6">
+                      Order Summary
+                    </h2>
+
+                    <ul className="text-slate-500 font-medium space-y-4">
+                      {/* Subtotal */}
+                      <li className="flex flex-wrap gap-4 text-sm">
+                        Subtotal
+                        <span className="ml-auto font-semibold text-slate-900">
+                          ${Number(checkoutdata.summary.total_line).toFixed(2)}
+                        </span>
+                      </li>
+
+                      {/* Discount */}
+                      <li className="flex flex-wrap gap-4 text-sm">
+                        Discount
+                        <span className="ml-auto font-semibold text-slate-900">
+                          -$
+                          {Number(checkoutdata.summary.total_discount).toFixed(
+                            2
+                          )}
+                        </span>
+                      </li>
+
+                      {/* Final price */}
+                      <hr className="border-slate-300" />
+                      <li className="flex flex-wrap gap-4 text-[15px] font-semibold text-slate-900">
+                        Total
+                        <span className="ml-auto">
+                          ${Number(checkoutdata.summary.total_final).toFixed(2)}
+                        </span>
+                      </li>
+                    </ul>
+
+                    <div className="space-y-4 mt-8">
+                      <button
+                        type="submit"
+                        className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
+                      >
+                        Complete Purchase
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>

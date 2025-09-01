@@ -33,7 +33,6 @@ export const GetDashboardData = async () => {
     const response = await axios.get(
       `${DASHBOAD_API}/dashboard/getalldashboard`
     );
-    console.log("response: ", response);
     return response.data;
   } catch (error) {
     Toastifyerror(error);

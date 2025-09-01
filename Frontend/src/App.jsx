@@ -18,8 +18,9 @@ import Dashboard from "./Pages/Admin/Dashboard";
 import AdminProducts from "./Pages/Admin/Products/AdminProducts";
 import Adminorder from "./Pages/Admin/Order/Adminorder";
 import Customer from "./Pages/Admin/Customer/Customer";
-import Supplier from "./Pages/Admin/Supplier/Supplier";
 import Report from "./Pages/Admin/Report";
+import Enquiry from "./Pages/Admin/Enquiry";
+import Setting from "./Pages/Admin/Setting";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./Context/CartContext";
@@ -55,8 +56,9 @@ function App() {
               <Route path="/admin/products" element={<AdminProducts />} />
               <Route path="/admin/order" element={<Adminorder />} />
               <Route path="/admin/customer" element={<Customer />} />
-              <Route path="/admin/supplier" element={<Supplier />} />
+              <Route path="/admin/enquiry" element={<Enquiry />} />
               <Route path="/admin/report" element={<Report />} />
+              <Route path="/admin/setting" element={<Setting />} />
             </Route>
           </Routes>
         </BrowserRouter>

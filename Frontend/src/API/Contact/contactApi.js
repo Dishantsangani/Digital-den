@@ -7,3 +7,10 @@ export const contactApi = (formdata) => {
     withCredentials: true,
   });
 };
+
+export const getcontactApi = async () => {
+  const response = await axios.get(`${BASE_URL}/getinquery`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

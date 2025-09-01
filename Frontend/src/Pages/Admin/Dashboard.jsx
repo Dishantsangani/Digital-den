@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import product from "../../assets/Admin/Dashboard/product.svg";
 import supplier from "../../assets/Admin/Dashboard/supplier.svg";
-import sales from "../../assets/Admin/Dashboard/sales.svg";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
 import { GetDashboardData } from "../../API/Admin/adminApi";
 
 function Dashboard() {
-  const [getdata, setgetdata] = useState({ total_products: 0 });
+  const [getdata, setgetdata] = useState([]);
 
   const featchedDashboard = async () => {
     try {
@@ -27,7 +26,7 @@ function Dashboard() {
       <div className=" flex-col max-w-full">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <h1 className="text-4xl text-center text-slate-900 font-bold">
-            Welcome to DigitalDen !
+            Welcome to <span className="text-indigo-600">DigitalDen !</span>
           </h1>
           <p className="mt-4 text-center text-sm text-slate-600 leading-relaxed">
             A world of products at your fingertips.
@@ -63,7 +62,7 @@ function Dashboard() {
               Total Orders
             </p>
             <p className="text-[#0d0f1c] tracking-light text-2xl font-bold leading-tight">
-              15
+              {getdata.total_orders}
             </p>
           </div>
           <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]">
@@ -72,7 +71,7 @@ function Dashboard() {
               Total Customers
             </p>
             <p className="text-[#0d0f1c] tracking-light text-2xl font-bold leading-tight">
-              8
+              {getdata.total_customer}
             </p>
           </div>{" "}
           <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]">
@@ -93,12 +92,26 @@ function Dashboard() {
             </p>
           </div>
           <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border bg-white border-[#ced2e9]">
-            <img src={sales} alt="sales" className="w-5 h-5" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+              />
+            </svg>
+
             <p className="text-[#0d0f1c] text-base font-medium leading-normal">
-              Total sales
+              Total enquiry
             </p>
             <p className="text-[#0d0f1c] tracking-light text-2xl font-bold leading-tight">
-              8
+              {getdata.total_enquiry}
             </p>
           </div>
         </div>
