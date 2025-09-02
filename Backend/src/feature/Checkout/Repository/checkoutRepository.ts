@@ -6,6 +6,7 @@ import {
   GET_USER_CART_ITEMS_FOR_CHECKOUT_QUERY,
   INSERT_ORDER_ITEM_QUERY,
   INSERT_ORDER_QUERY,
+  UPDATE_PRODUCT_QUANTITY_QUERY,
 } from "../../../db/Query/Checkout/checkoutQuery.js";
 
 export class CheckoutRepository {
@@ -48,6 +49,16 @@ export class CheckoutRepository {
         Number(item.discount ?? 0),
         Number(item.sub_total),
       ]);
+      const updatedProduct = await dbclient.queryForOne(
+        UPDATE_PRODUCT_QUANTITY_QUERY,
+        [item.quantity, item.product_id]
+      );
+
+      if (!updatedProduct) {
+        throw new Error(
+          `Insufficient stock for product ID: ${item.product_id}`
+        );
+      }
     }
     await dbclient.queryForOne(CLEAR_USER_CART_QUERY, [user_id]);
     return order;

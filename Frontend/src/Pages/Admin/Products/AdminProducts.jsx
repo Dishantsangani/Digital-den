@@ -13,10 +13,7 @@ import {
 function AdminProducts() {
   const [model, setmodel] = useState(false);
   const [getdata, setgetdata] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
   const [errors, setErrors] = useState({});
-
   const [formdata, setformdata] = useState({
     productname: "",
     category: "",
@@ -26,9 +23,41 @@ function AdminProducts() {
     productImage: "",
     description: "",
   });
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+
+  // Search
+  const [searchinput, setSearchinput] = useState("");
+  const [sortOption, setSortOption] = useState("az");
+
+  // Search
+  let filterdata = getdata.filter((item) =>
+    [item.productname, item.category, item.description].some((field) =>
+      field?.toLowerCase().includes(searchinput.toLowerCase())
+    )
+  );
+  if (sortOption === "az") {
+    filterdata = filterdata.sort((a, b) =>
+      a.productname.localeCompare(b.productname)
+    );
+  } else if (sortOption === "za") {
+    filterdata = filterdata.sort((a, b) =>
+      b.productname.localeCompare(a.productname)
+    );
+  } else if (sortOption === "newest") {
+    filterdata = filterdata.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  } else if (sortOption === "oldest") {
+    filterdata = filterdata.sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+  }
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = getdata.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filterdata.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlechange = (e) => {
     const { name, value } = e.target;
@@ -200,9 +229,9 @@ function AdminProducts() {
         </div>
         <div className="px-4 py-3">
           <label className="flex flex-col min-w-40 h-12 w-full">
-            <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
+            <div className="flex w-9xl flex-1 items-stretch rounded-xl h-full">
               <div
-                className="text-[#47569e] flex border-none bg-white items-center justify-center pl-4 rounded-l-xl border-r-0"
+                className="text-[#47569e] flex border-none bg-slate-200 items-center justify-center pl-4 rounded-l-xl border-r-0"
                 data-icon="MagnifyingGlass"
                 data-size="24px"
                 data-weight="regular"
@@ -218,10 +247,24 @@ function AdminProducts() {
                 </svg>
               </div>
               <input
+                type="search"
                 placeholder="Search products"
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d0f1c] focus:outline-0 focus:ring-0 border-none bg-white focus:border-none h-full placeholder:text-[#47569e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                defaultValue=""
+                value={searchinput}
+                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d0f1c] focus:outline-0 focus:ring-0 border-none bg-slate-200 focus:border-none h-full placeholder:text-[#47569e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                onChange={(e) => setSearchinput(e.target.value)}
               />
+              <div className="flex items-center justify-center p-4">
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="text-white bg-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2.5"
+                >
+                  <option value="az">A → Z</option>
+                  <option value="za">Z → A</option>
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+              </div>
             </div>
           </label>
         </div>

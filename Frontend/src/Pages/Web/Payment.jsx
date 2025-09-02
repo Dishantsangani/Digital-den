@@ -5,8 +5,11 @@ import {
 } from "../../Component/Notification/Toastitynotificaition";
 import { addcheckoutApi, getcheckoutApi } from "../../API/Checkout/checkoutApi";
 import cashondelivery from "../../assets/Web/Payment/cashondeliverytruck.png";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Payment() {
+  const navigate = useNavigate();
   const [formdata, setformdata] = useState({
     firstname: "",
     lastname: "",
@@ -101,6 +104,20 @@ function Payment() {
       const res = await addcheckoutApi(formdata);
       console.log("res: ", res);
       Toastitysuccess("Checkout Successfully");
+      setformdata({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phonenumber: "",
+        addressline: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        payment: "",
+      });
+      setTimeout(() => {
+        navigate("/order");
+      }, 1500);
     } catch (error) {
       Toastifyerror(error);
     }
@@ -114,11 +131,13 @@ function Payment() {
       Toastifyerror(error);
     }
   };
+
   useEffect(() => {
     checkout();
   }, []);
   return (
     <>
+      <ToastContainer />
       <div className="bg-white sm:px-8 px-4 py-6">
         <div className="max-w-screen-xl max-md:max-w-xl mx-auto">
           <div className="flex items-start mb-16">

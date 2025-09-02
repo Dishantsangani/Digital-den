@@ -21,6 +21,7 @@ import Customer from "./Pages/Admin/Customer/Customer";
 import Report from "./Pages/Admin/Report";
 import Enquiry from "./Pages/Admin/Enquiry";
 import Setting from "./Pages/Admin/Setting";
+import Restock from "./Pages/Admin/Restock";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./Context/CartContext";
@@ -59,6 +60,7 @@ function App() {
               <Route path="/admin/enquiry" element={<Enquiry />} />
               <Route path="/admin/report" element={<Report />} />
               <Route path="/admin/setting" element={<Setting />} />
+              <Route path="/admin/restock" element={<Restock />} />
             </Route>
           </Routes>
         </BrowserRouter>

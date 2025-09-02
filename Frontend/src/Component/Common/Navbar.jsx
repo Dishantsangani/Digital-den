@@ -17,7 +17,6 @@ function Navbar() {
     0
   );
 
-  // Lock scroll when drawer is open
   useEffect(() => {
     document.body.classList.toggle("overflow-hidden", isOpen);
     return () => document.body.classList.remove("overflow-hidden");
@@ -64,12 +63,19 @@ function Navbar() {
             >
               Teams
             </Link>
-            <button
-              onClick={toggleDrawer}
-              className="ml-4 bg-indigo-600 text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-indigo-700"
-            >
-              Cart
-            </button>
+            <div className="relative inline-block">
+              <button
+                onClick={toggleDrawer}
+                className="ml-4 bg-indigo-600 text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-indigo-700 relative"
+              >
+                Cart
+              </button>
+              {cart.items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                  {cart.items.length}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="lg:hidden">
@@ -137,12 +143,21 @@ function Navbar() {
             >
               Teams
             </Link>
-            <button
-              onClick={toggleDrawer}
-              className="w-full bg-indigo-600 text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-indigo-700"
-            >
-              Cart
-            </button>
+            <div className="relative inline-block">
+              <button
+                onClick={toggleDrawer}
+                className="ml-4 bg-indigo-600 text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-indigo-700 relative"
+              >
+                Cart
+              </button>
+
+              {/* Cart Count Badge */}
+              {cart.items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                  {cart.items.length}
+                </span>
+              )}
+            </div>
           </div>
         )}
 

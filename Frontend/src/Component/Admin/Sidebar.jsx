@@ -1,13 +1,15 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import Restock from "../../assets/Web/Restock/restock.png";
 
 function Sidebar() {
   return (
     <>
-      <div className="container flex flex-col w-60">
+      <div className="container flex flex-col w-60 mt-4">
         <div className="flex h-full min-h-[700px] flex-col justify-between bg-[#F9FAFB] p-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2 cursor-pointer">
+              {/* Dashboard */}
               <div className="flex items-center gap-3 px-3">
                 <NavLink
                   to="/admin/dashboard"
@@ -38,6 +40,7 @@ function Sidebar() {
                   <span>Dashboard</span>
                 </NavLink>
               </div>
+              {/* Product */}
               <div className="flex items-center gap-3 px-3">
                 <NavLink
                   to="/admin/products"
@@ -68,6 +71,7 @@ function Sidebar() {
                   <span>Products</span>
                 </NavLink>
               </div>
+              {/* order */}
               <div className="flex items-center gap-3 px-3 ">
                 <NavLink
                   to="/admin/order"
@@ -103,6 +107,7 @@ function Sidebar() {
                   <span>Orders</span>
                 </NavLink>
               </div>
+              {/* Customer */}
               <div className="flex items-center gap-3 px-3 ">
                 <NavLink
                   to="/admin/customer"
@@ -133,6 +138,30 @@ function Sidebar() {
                   <span>Customers</span>
                 </NavLink>
               </div>{" "}
+              {/* Restock */}
+              <div className="flex items-center gap-3 px-3 ">
+                <NavLink
+                  to="/admin/restock"
+                  className={({ isActive }) =>
+                    `flex items-center space-x-2  py-2 rounded-md transition ${
+                      isActive
+                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
+                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                    }`
+                  }
+                >
+                  <div
+                    className="text-[#0d0f1c]"
+                    data-icon="Users"
+                    data-size="24px"
+                    data-weight="regular"
+                  >
+                    <img src={Restock} alt="" className="w-5 h-5" />
+                  </div>
+                  <span>Restock</span>
+                </NavLink>
+              </div>
+              {/* enquiry */}
               <div className="flex items-center gap-3 px-3 ">
                 <NavLink
                   to="/admin/enquiry"
@@ -167,7 +196,8 @@ function Sidebar() {
                   </div>
                   <span>inquiry</span>
                 </NavLink>
-              </div>{" "}
+              </div>
+              {/* Setting */}
               <div className="flex items-center gap-3 px-3 ">
                 <NavLink
                   to="/admin/setting"

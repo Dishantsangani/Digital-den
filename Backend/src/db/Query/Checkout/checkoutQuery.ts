@@ -32,3 +32,5 @@ export const GET_USER_CART_QUERY = `SELECT
   JOIN cart c ON ci.cart_id = c.id
   JOIN product p ON ci.product_id = p.id
   WHERE c.user_id = $1 `;
+
+export const UPDATE_PRODUCT_QUANTITY_QUERY = `UPDATE product SET stockquantity  = stockquantity  - $1 WHERE id = $2 AND stockquantity  >= $1 RETURNING *; `;
