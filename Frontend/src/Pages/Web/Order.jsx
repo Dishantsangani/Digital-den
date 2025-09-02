@@ -1,6 +1,44 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
+import { getOrderClientApi } from "../../API/Order/webOrderApi";
+import axios from "axios";
 function Order() {
+  const [getdata, setgetdata] = useState([]);
+
+  const featchedData = async () => {
+    try {
+      const res = await getOrderClientApi();
+      setgetdata(res.data);
+    } catch (error) {
+      Toastifyerror(error);
+    }
+  };
+  useEffect(() => {
+    featchedData();
+  }, []);
+
+  const handledownloadinvoice = () => {
+    axios
+      .get("http://localhost:8080/base/download-invoice", {
+        responseType: "blob",
+      })
+      .then((res) => {
+        const blob = new Blob([res.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "invoice.pdf";
+        link.click();
+
+        // cleanup
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((err) => {
+        console.error("Download error:", err);
+      });
+  };
+
   return (
     <>
       {/* Progress bar */}
@@ -61,136 +99,132 @@ function Order() {
               Thank you for your order!
             </p>
           </div>
-
           {/* Body */}
           <div className="p-6">
-            {/* Shipping info */}
-            <div className="bg-gray-100 rounded-xl p-4 mt-6">
-              <h3 className="text-base font-medium text-slate-900 mb-4">
-                Shipping Information
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-slate-500 text-sm font-medium">Customer</p>
-                  <p className="text-slate-900 text-sm font-medium mt-2">
-                    Alex Johnson
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium">
-                    Shipping Method
-                  </p>
-                  <p className="text-slate-900 text-sm font-medium mt-2">
-                    Express Delivery
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium">Address</p>
-                  <p className="text-slate-900 text-sm font-medium mt-2">
-                    123 Main St, Apt 4B
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium">Phone</p>
-                  <p className="text-slate-900 text-sm font-medium mt-2">
-                    (555) 123-4567
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Order items */}
-            <div className="mt-6">
-              <h3 className="text-base font-medium text-slate-900 mb-4">
-                Order Items (2)
-              </h3>
-              <div className="space-y-4">
-                {/* Item 1 */}
-                <div className="flex items-start gap-4 max-sm:flex-col">
-                  <div className="w-16 h-16 sm:w-[70px] sm:h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
-                    <img
-                      src="https://readymadeui.com/images/watch1.webp"
-                      alt="Product"
-                      className="w-14 h-14 object-contain rounded-sm"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-sm font-medium text-slate-900">
-                      Stylish Golden Watch
-                    </h4>
-                    <p className="text-slate-500 text-xs font-medium mt-2">
-                      Color: Golden
-                    </p>
-                    <p className="text-slate-500 text-xs font-medium mt-1">
-                      Qty: 1
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-slate-900 text-sm font-semibold">
-                      $129.00
-                    </p>
+            {getdata && (
+              <div>
+                {/* Shipping info */}
+                <div className="bg-gray-100 rounded-xl p-4 mt-6">
+                  <h3 className="text-base font-medium text-slate-900 mb-4">
+                    Shipping Information
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-slate-500 text-sm font-medium">
+                        Customer
+                      </p>
+                      <p className="text-slate-900 text-sm font-medium mt-2">
+                        {getdata.customer_name}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 text-sm font-medium">
+                        Shipping Method
+                      </p>
+                      <p className="text-slate-900 text-sm font-medium mt-2">
+                        {getdata.shipping_method || "Standard Delivery"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 text-sm font-medium">
+                        Address
+                      </p>
+                      <p className="text-slate-900 text-sm font-medium mt-2">
+                        {getdata.full_address}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 text-sm font-medium">
+                        Phone
+                      </p>
+                      <p className="text-slate-900 text-sm font-medium mt-2">
+                        {getdata.phonenumber}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Item 2 */}
-                <div className="flex items-start gap-4 max-sm:flex-col border-t pt-4 border-gray-200">
-                  <div className="w-16 h-16 sm:w-[70px] sm:h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
-                    <img
-                      src="https://readymadeui.com/images/product14.webp"
-                      alt="Product"
-                      className="w-14 h-14 object-contain rounded-sm"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-sm font-medium text-slate-900">
-                      Velvet Sneaker
-                    </h4>
-                    <p className="text-slate-500 text-xs font-medium mt-2">
-                      Color: Black/White
-                    </p>
-                    <p className="text-slate-500 text-xs font-medium mt-1">
-                      Qty: 1
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-slate-900 text-sm font-semibold">
-                      $238.00
-                    </p>
+                {/* Order items */}
+                <div className="mt-6">
+                  <h3 className="text-base font-medium text-slate-900 mb-4">
+                    Order Items ({getdata.products?.length || 0})
+                  </h3>
+                  <div className="space-y-4">
+                    {getdata.products?.map((product, pIndex) => (
+                      <div
+                        key={pIndex}
+                        className={`flex items-start gap-4 max-sm:flex-col ${
+                          pIndex > 0 ? "border-t pt-4 border-gray-200" : ""
+                        }`}
+                      >
+                        <div className="flex-1">
+                          <h4 className="text-sm font-medium text-slate-900">
+                            {product.product_name}
+                          </h4>
+                          <p className="text-slate-500 text-xs font-medium mt-2">
+                            Qty: {product.quantity}
+                          </p>
+                          {product.discount > 0 && (
+                            <p className="text-slate-500 text-xs font-medium mt-1">
+                              Discount: ${product.discount}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <p className="text-slate-900 text-sm font-semibold">
+                            ${product.sub_total}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Order Summary */}
-            <div className="bg-gray-100 rounded-xl p-4 mt-6">
-              <h3 className="text-base font-medium text-slate-900 mb-4">
-                Order Summary
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <p className="text-sm text-slate-500 font-medium">Subtotal</p>
-                  <p className="text-slate-900 text-sm font-semibold">
-                    $367.00
-                  </p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="text-sm text-slate-500 font-medium">Shipping</p>
-                  <p className="text-slate-900 text-sm font-semibold">$0.00</p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="text-sm text-slate-500 font-medium">Tax</p>
-                  <p className="text-slate-900 text-sm font-semibold">$29.36</p>
-                </div>
-                <div className="flex justify-between pt-3 border-t border-gray-300">
-                  <p className="text-[15px] font-semibold text-slate-900">
-                    Total
-                  </p>
-                  <p className="text-[15px] font-semibold text-indigo-700">
-                    $396.36
-                  </p>
+                {/* Order Summary */}
+                <div className="bg-gray-100 rounded-xl p-4 mt-6">
+                  <h3 className="text-base font-medium text-slate-900 mb-4">
+                    Order Summary
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <p className="text-sm text-slate-500 font-medium">
+                        Subtotal
+                      </p>
+                      <p className="text-slate-900 text-sm font-semibold">
+                        ${getdata.subtotal}
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-sm text-slate-500 font-medium">
+                        Discount
+                      </p>
+                      <p className="text-slate-900 text-sm font-semibold">
+                        -${getdata.discount}
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-sm text-slate-500 font-medium">Tax</p>
+                      <p className="text-slate-900 text-sm font-semibold">
+                        $
+                        {(
+                          (parseFloat(getdata.subtotal) -
+                            parseFloat(getdata.discount)) *
+                          0.18
+                        ).toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="flex justify-between pt-3 border-t border-gray-300">
+                      <p className="text-[15px] font-semibold text-slate-900">
+                        Total
+                      </p>
+                      <p className="text-[15px] font-semibold text-indigo-700">
+                        ${getdata.total}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Footer */}
@@ -202,7 +236,11 @@ function Order() {
                   Contact us
                 </button>
               </p>
-              <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-[15px] py-2 px-4 rounded-lg max-sm:-order-1 cursor-pointer transition duration-200">
+              <button
+                type="button"
+                onClick={handledownloadinvoice}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-[15px] py-2 px-4 rounded-lg max-sm:-order-1 cursor-pointer transition duration-200"
+              >
                 Download Invoice
               </button>
             </div>
