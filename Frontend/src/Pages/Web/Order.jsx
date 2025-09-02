@@ -202,17 +202,6 @@ function Order() {
                         -${getdata.discount}
                       </p>
                     </div>
-                    <div className="flex justify-between">
-                      <p className="text-sm text-slate-500 font-medium">Tax</p>
-                      <p className="text-slate-900 text-sm font-semibold">
-                        $
-                        {(
-                          (parseFloat(getdata.subtotal) -
-                            parseFloat(getdata.discount)) *
-                          0.18
-                        ).toFixed(2)}
-                      </p>
-                    </div>
                     <div className="flex justify-between pt-3 border-t border-gray-300">
                       <p className="text-[15px] font-semibold text-slate-900">
                         Total
