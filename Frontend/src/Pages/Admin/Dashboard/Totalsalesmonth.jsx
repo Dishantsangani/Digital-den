@@ -63,7 +63,7 @@ function Totalsalesmonth() {
       {
         label: "Total Sales ($)",
         data: salesData.map((d) => d.total_sales),
-        backgroundColor: "rgb(34,197,94)", // Tailwind green-500
+        backgroundColor: "rgb(57, 73, 171)", // Tailwind green-500
         borderRadius: 8,
       },
     ],
@@ -103,7 +103,7 @@ function Totalsalesmonth() {
         <span
           className={`px-2 py-1 text-xs font-semibold rounded-lg ${
             growthRate >= 0
-              ? "bg-green-100 text-green-700"
+              ? "bg-indigo-600 text-white"
               : "bg-red-100 text-red-700"
           }`}
         >

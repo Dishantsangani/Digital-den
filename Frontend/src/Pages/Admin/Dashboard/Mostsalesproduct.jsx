@@ -34,7 +34,7 @@ const Mostsalesproduct = () => {
           {
             label: "Sales",
             data: data.map((item) => item.total_sold),
-            backgroundColor: "rgba(34,197,94,0.8)",
+            backgroundColor: "rgba(57, 73, 171, 0.8)",
             borderRadius: 6,
             barThickness: 16,
           },
@@ -56,7 +56,7 @@ const Mostsalesproduct = () => {
       </h2>
       <div className="flex justify-between border-b border-gray-200 pb-3">
         <div>
-          <span className="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md">
+          <span className="bg-indigo-600 text-white text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md">
             Sales Overview
           </span>
         </div>

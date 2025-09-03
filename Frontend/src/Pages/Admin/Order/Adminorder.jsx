@@ -67,7 +67,7 @@ function Adminorder() {
           <label className="flex flex-col min-w-72 h-12 w-full">
             <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
               <div
-                className="text-[#47579e] flex border-none bg-slate-200 items-center justify-center pl-4 rounded-l-xl border-r-0"
+                className="text-indigo-600 flex border-none bg-slate-200 items-center justify-center pl-4 rounded-l-xl border-r-0"
                 data-icon="MagnifyingGlass"
                 data-size="24px"
                 data-weight="regular"
@@ -86,7 +86,7 @@ function Adminorder() {
               <input
                 value={searchinput}
                 placeholder="Search orders"
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d0f1c] focus:outline-0 focus:ring-0 border-none bg-slate-200 focus:border-none h-full placeholder:text-[#47579e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-indigo-600 focus:outline-0 focus:ring-0 border-none bg-slate-200 focus:border-none h-full placeholder:text-[#47579e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                 onChange={(e) => setSearchinput(e.target.value)}
               />
 
@@ -134,22 +134,22 @@ function Adminorder() {
               <tbody>
                 {currentOrders?.map((item) => (
                   <tr key={item.id} className="border-t border-t-[#ced3e9]">
-                    <td className="px-4 py-2 text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
                       {item.client.name}
                     </td>
-                    <td className="px-4 py-2 text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
                       {new Date(item.order_date).toLocaleString()}
                     </td>
-                    <td className="px-4 py-2  text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                       {item.client.phone}
                     </td>
-                    <td className="px-4 py-2  text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                       {item.client.address}
                     </td>
-                    <td className="px-4 py-2  text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                       ${item.total_sub_total}
                     </td>
-                    <td className="px-4 py-2  text-[#47579e] text-sm font-normal leading-normal">
+                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                       {item.items.product_name}
                       <button
                         className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
@@ -175,11 +175,11 @@ function Adminorder() {
                 }`}
               >
                 <div className="flex justify-between items-center py-4 px-4 border-b border-gray-200">
-                  <h2 className="font-bold  text-gray-800">All Product's</h2>
+                  <h2 className="font-bold  text-indigo-600">All Product's</h2>
 
                   <button
                     type="button"
-                    className="w-8 h-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "
+                    className="w-8 h-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-indigo-600 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none "
                     aria-label="Close"
                     onClick={() => setisOpen(false)}
                   >
@@ -211,7 +211,7 @@ function Adminorder() {
                         >
                           {/* Product Info */}
                           <div className="flex-1 flex flex-col">
-                            <h3 className="text-base font-semibold text-gray-900">
+                            <h3 className="text-base font-semibold text-indigo-600">
                               {item.product_name}
                             </h3>
                             <p className="text-sm mt-0.5 text-gray-700">

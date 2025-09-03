@@ -231,7 +231,7 @@ function AdminProducts() {
           <label className="flex flex-col min-w-40 h-12 w-full">
             <div className="flex w-9xl flex-1 items-stretch rounded-xl h-full">
               <div
-                className="text-[#47569e] flex border-none bg-slate-200 items-center justify-center pl-4 rounded-l-xl border-r-0"
+                className="text-indigo-600 flex border-none bg-slate-200 items-center justify-center pl-4 rounded-l-xl border-r-0"
                 data-icon="MagnifyingGlass"
                 data-size="24px"
                 data-weight="regular"
@@ -250,7 +250,7 @@ function AdminProducts() {
                 type="search"
                 placeholder="Search products"
                 value={searchinput}
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d0f1c] focus:outline-0 focus:ring-0 border-none bg-slate-200 focus:border-none h-full placeholder:text-[#47569e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-indigo-600 focus:outline-0 focus:ring-0 border-none bg-slate-200 focus:border-none h-full placeholder:text-[#47569e] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                 onChange={(e) => setSearchinput(e.target.value)}
               />
               <div className="flex items-center justify-center p-4">
@@ -304,34 +304,34 @@ function AdminProducts() {
                 {Array.isArray(currentItems) &&
                   currentItems.map((item) => (
                     <tr key={item.id} className="border-t border-t-[#ced2e9]">
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-120 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         <img
                           src={`http://localhost:8080${item.productimage}`}
                           alt={item.productImage}
                           className="w-25 h-25"
                         />
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-240 h-[72px] px-4 py-2 w-[400px] text-[#0d0f1c] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-240 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.productname}
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.price}
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-360 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.category}
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.stockquantity}
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.taxrate}
                       </td>
-                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
+                      <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         {item.description}
                       </td>
                       <td
                         onClick={() => handledelete(item.id)}
-                        className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 cursor-pointer h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal"
+                        className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-480 cursor-pointer h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

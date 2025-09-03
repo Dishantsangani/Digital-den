@@ -16,8 +16,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -47,8 +47,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -78,8 +78,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -114,8 +114,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -145,8 +145,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -168,8 +168,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
@@ -204,8 +204,8 @@ function Sidebar() {
                   className={({ isActive }) =>
                     `flex items-center space-x-2  py-2 rounded-md transition ${
                       isActive
-                        ? "bg-gray-200 text-[#0f111a] px-4 font-medium"
-                        : "text-[#0f111a] hover:text-[#0f111a] font-medium"
+                        ? "bg-indigo-600 text-white px-4 font-medium"
+                        : "text-indigo-600 hover:text-indigo-600 font-medium"
                     }`
                   }
                 >
