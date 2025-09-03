@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import about1 from "../../assets/Web/About/About.jpg";
 import { Link } from "react-router-dom";
 
 function About() {
-  const CheckIcon = () => (
-    <svg
-      className="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fillRule="evenodd"
-        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
+  const faqs = [
+    {
+      question: "How do I update my billing information?",
+      answer:
+        "To contact customer support, look for a 'Contact us' or 'Help' button or link on the website or platform. You may be able to email, call, or chat with customer support for assistance.",
+    },
+    {
+      question: "How can I contact customer support?",
+      answer:
+        "To contact customer support, look for a 'Contact us' or 'Help' button or link on the website or platform. You may be able to email, call, or chat with customer support for assistance.",
+    },
+    {
+      question: "How do I update my profile information?",
+      answer:
+        "To contact customer support, look for a 'Contact us' or 'Help' button or link on the website or platform. You may be able to email, call, or chat with customer support for assistance.",
+    },
+    {
+      question: "How do I find my purchase history?",
+      answer:
+        "To contact customer support, look for a 'Contact us' or 'Help' button or link on the website or platform. You may be able to email, call, or chat with customer support for assistance.",
+    },
+  ];
+  const [openIndex, setOpenIndex] = useState(null);
 
+  const toggleAccordion = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
   return (
     <>
       <main
@@ -172,6 +184,58 @@ function About() {
           </div>
         </div>
       </section>
+      {/*Faq  */}
+      <section className="py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16">
+            <h6 className="text-lg text-indigo-600 font-medium text-center mb-2">
+              FAQs
+            </h6>
+            <h2 className="text-4xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem]">
+              Frequently asked questions
+            </h2>
+          </div>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className={`accordion py-6 px-6 border-b border-gray-200 rounded-2xl transition-all duration-500 hover:bg-indigo-50 ${
+                  openIndex === index ? "bg-indigo-50" : ""
+                }`}
+              >
+                <button
+                  onClick={() => toggleAccordion(index)}
+                  className="accordion-toggle group flex items-center justify-between w-full text-left text-gray-900 transition duration-500 hover:text-indigo-600"
+                >
+                  <h5 className="text-lg font-medium">{faq.question}</h5>
+                  <svg
+                    className={`w-5 h-5 text-gray-500 transition-transform duration-500 ${
+                      openIndex === index ? "rotate-180 text-indigo-600" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className={`overflow-hidden transition-max-height duration-500 ${
+                    openIndex === index ? "max-h-96 mt-4" : "max-h-0"
+                  }`}
+                >
+                  <p className="text-gray-900 leading-6">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Quotes */}
       <section className="bg-gray-50">
@@ -213,182 +277,6 @@ function About() {
               </div>
             </figcaption>
           </figure>
-        </div>
-      </section>
-
-      {/*Price Card  */}
-      <section className="bg-white">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
-          <div className="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
-              Designed for tech enthusiasts like you
-            </h2>
-            <p className="mb-5 font-light text-gray-500 sm:text-xl">
-              Here at Digital Den, we specialize in electronics where
-              cutting-edge technology, strategic partnerships, and customer
-              insights drive our business.
-            </p>
-          </div>
-
-          <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-            {/* Starter Plan */}
-            <div className="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xl xl:p-8">
-              <h3 className="mb-4 text-2xl font-bold text-indigo-600">
-                Digital Den Starter Plan
-              </h3>
-              <p className="font-light text-gray-500 sm:text-lg">
-                Ideal for tech lovers & early adopters.
-              </p>
-              <div className="flex items-baseline justify-center my-8">
-                <span className="mr-2 text-5xl font-extrabold text-gray-900">
-                  $29
-                </span>
-                <span className="text-gray-500">/month</span>
-              </div>
-              <ul role="list" className="mb-8 space-y-4 text-left">
-                {[
-                  "Exclusive discounts on latest gadgets",
-                  "Free shipping on all orders",
-                  "Access to members-only sales",
-                  "Priority customer support (6 months)",
-                  "Monthly curated product recommendations",
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center space-x-3">
-                    <svg
-                      className="w-5 h-5 text-green-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#"
-                className="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-6 py-3 text-center transition"
-              >
-                Join Now
-              </a>
-            </div>
-
-            {/* Professional Plan */}
-            <div className="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xl xl:p-8">
-              <h3 className="mb-4 text-2xl font-bold text-indigo-600">
-                Professional
-              </h3>
-              <p className="font-light text-gray-500 sm:text-lg">
-                Perfect for growing e-commerce brands with higher traffic needs.
-              </p>
-              <div className="flex items-baseline justify-center my-8">
-                <span className="mr-2 text-5xl font-extrabold text-gray-900">
-                  $79
-                </span>
-                <span className="text-gray-500">/month</span>
-              </div>
-              <ul role="list" className="mb-8 space-y-4 text-left">
-                {[
-                  "Advanced store customization",
-                  "No hidden setup fees",
-                  "Team access: Up to 10 users",
-                  "Priority support: 24 months",
-                  "Free store updates: 24 months",
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center space-x-3">
-                    <svg
-                      className="w-5 h-5 text-green-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#"
-                className="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-6 py-3 text-center transition"
-              >
-                Get started
-              </a>
-            </div>
-
-            {/* Enterprise Plan */}
-            <div className="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xl xl:p-8">
-              <h3 className="mb-4 text-2xl font-bold text-indigo-600">
-                Enterprise
-              </h3>
-              <p className="font-light text-gray-500 sm:text-lg">
-                Ideal for large-scale businesses with high volume and advanced
-                needs.
-              </p>
-              <div className="flex items-baseline justify-center my-8">
-                <span className="mr-2 text-5xl font-extrabold text-gray-900">
-                  $199
-                </span>
-                <span className="text-gray-500">/month</span>
-              </div>
-              <ul role="list" className="mb-8 space-y-4 text-left">
-                {[
-                  "Custom development & integrations",
-                  "No hidden charges or setup fees",
-                  "Team access: Unlimited users",
-                  "Dedicated support: 36 months",
-                  "Lifetime store updates",
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center space-x-3">
-                    <svg
-                      className="w-5 h-5 text-green-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#"
-                className="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-6 py-3 text-center transition"
-              >
-                Get started
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gray-50">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
-          <div className="max-w-screen-sm mx-auto text-center">
-            <h2 className="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 ">
-              Start your free trial today
-            </h2>
-            <p className="mb-6 font-light text-gray-500  md:text-lg">
-              Try Landwind Platform for 30 days. No credit card required.
-            </p>
-            <a
-              href="#"
-              className="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  focus:outline-none "
-            >
-              Free trial for 30 days
-            </a>
-          </div>
         </div>
       </section>
     </>

@@ -199,59 +199,91 @@ function Navbar() {
 
                     <div className="mt-8">
                       <ul className="-my-6 divide-y divide-gray-200">
-                        {cart.items.map((item) => (
-                          <li key={item.id} className="flex py-6 items-center">
-                            {/* Image */}
-                            <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                              <img
-                                src={`http://localhost:8080${item.image}`}
-                                alt={item.name}
-                                className="w-full h-full object-cover"
+                        {cart.items.length > 0 ? (
+                          cart.items.map((item) => (
+                            <li
+                              key={item.id}
+                              className="flex py-6 items-center"
+                            >
+                              {/* Image */}
+                              <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                <img
+                                  src={`http://localhost:8080${item.image}`}
+                                  alt={item.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+
+                              {/* Info */}
+                              <div className="ml-4 flex flex-1 flex-col justify-between min-h-[96px]">
+                                {/* Name and price */}
+                                <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <h3 className="truncate w-1/2">
+                                    {item.name}
+                                  </h3>
+                                  <p className="w-1/4 text-right">
+                                    ${item.price}
+                                  </p>
+                                </div>
+
+                                {/* Quantity controls */}
+                                <div className="flex items-center gap-2 mt-2">
+                                  <button
+                                    onClick={() => decrementItem(item.id)}
+                                    className="px-2 py-1 border rounded hover:bg-gray-100 font-bold"
+                                  >
+                                    −
+                                  </button>
+                                  <span className="w-8 text-center text-gray-700 font-medium">
+                                    {item.quantity}
+                                  </span>
+                                  <button
+                                    onClick={() => incrementItem(item.id)}
+                                    className="px-2 py-1 border rounded hover:bg-gray-100 font-bold"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+
+                                {/* Remove button */}
+                                <div className="mt-2">
+                                  <button
+                                    onClick={() => deleteItem(item.id)}
+                                    type="button"
+                                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            </li>
+                          ))
+                        ) : (
+                          <div className="flex flex-col items-center justify-center py-24">
+                            <svg
+                              className="w-24 h-24 mb-6 text-indigo-200"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={1.5}
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6H19m-12 0a1 1 0 102 0m8 0a1 1 0 102 0M5 5h14"
                               />
-                            </div>
-
-                            {/* Info */}
-                            <div className="ml-4 flex flex-1 flex-col justify-between min-h-[96px]">
-                              {/* Name and price */}
-                              <div className="flex justify-between text-base font-medium text-gray-900">
-                                <h3 className="truncate w-1/2">{item.name}</h3>
-                                <p className="w-1/4 text-right">
-                                  ${item.price}
-                                </p>
-                              </div>
-
-                              {/* Quantity controls */}
-                              <div className="flex items-center gap-2 mt-2">
-                                <button
-                                  onClick={() => decrementItem(item.id)}
-                                  className="px-2 py-1 border rounded hover:bg-gray-100 font-bold"
-                                >
-                                  −
-                                </button>
-                                <span className="w-8 text-center text-gray-700 font-medium">
-                                  {item.quantity}
-                                </span>
-                                <button
-                                  onClick={() => incrementItem(item.id)}
-                                  className="px-2 py-1 border rounded hover:bg-gray-100 font-bold"
-                                >
-                                  +
-                                </button>
-                              </div>
-
-                              {/* Remove button */}
-                              <div className="mt-2">
-                                <button
-                                  onClick={() => deleteItem(item.id)}
-                                  type="button"
-                                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                                >
-                                  Remove
-                                </button>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
+                            </svg>
+                            <h1 className="text-3xl font-bold text-indigo-600 mb-2">
+                              Your cart is empty
+                            </h1>
+                            <p className="text-gray-500 mb-6 text-center max-w-sm">
+                              Looks like you haven’t added any products yet.
+                              Start exploring and add items to your cart!
+                            </p>
+                          </div>
+                        )}
                       </ul>
                     </div>
                   </div>
