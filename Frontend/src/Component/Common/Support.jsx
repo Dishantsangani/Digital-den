@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import support from "../../assets/Common/Support/bx_support.svg";
-import axios from "axios";
+import { chatbotApi } from "../../API/Web/chatbotApi";
 
 function Support() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,18 +21,8 @@ function Support() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyA1ArI3yYq42zTultXI7YC51EcA6LrxgZ0",
-        {
-          contents: [
-            {
-              parts: [{ text: userMessage }],
-            },
-          ],
-        }
-      );
-
-      const botResponse = response.data.candidates[0].content.parts[0].text;
+      const data = await chatbotApi(userMessage);
+      const botResponse = data.candidates[0].content.parts[0].text;
 
       setChatMessages([
         ...newMessages,
