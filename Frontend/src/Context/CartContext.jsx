@@ -5,7 +5,7 @@ import {
   deleteCartApi,
   getCart,
   incrementItemApi,
-} from "../API/cartApi";
+} from "../API/Web/cartApi";
 import {
   Toastifyerror,
   Toastitysuccess,

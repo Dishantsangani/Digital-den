@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
-import { getcontactApi } from "../../API/Contact/contactApi";
+import { getcontactApi } from "../../API/Web/contactApi";
 function Enquiry() {
   const [getdata, setgetdata] = useState([]);
 

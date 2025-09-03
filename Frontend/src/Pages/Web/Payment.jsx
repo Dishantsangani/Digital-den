@@ -3,13 +3,18 @@ import {
   Toastifyerror,
   Toastitysuccess,
 } from "../../Component/Notification/Toastitynotificaition";
-import { addcheckoutApi, getcheckoutApi } from "../../API/Checkout/checkoutApi";
+import { addcheckoutApi, getcheckoutApi } from "../../API/Web/checkoutApi";
 import cashondelivery from "../../assets/Web/Payment/cashondeliverytruck.png";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { handlePaymentApi } from "../../API/Web/paymentApi";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
   const navigate = useNavigate();
+
   const [formdata, setformdata] = useState({
     firstname: "",
     lastname: "",
@@ -23,6 +28,7 @@ function Payment() {
   });
   const [error, seterror] = useState({});
   const [checkoutdata, setcheckoutdata] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const validation = () => {
     const newerror = {};
@@ -101,25 +107,20 @@ function Payment() {
     e.preventDefault();
     if (!validation()) return;
     try {
-      const res = await addcheckoutApi(formdata);
-      console.log("res: ", res);
-      Toastitysuccess("Checkout Successfully");
-      setformdata({
-        firstname: "",
-        lastname: "",
-        email: "",
-        phonenumber: "",
-        addressline: "",
-        city: "",
-        state: "",
-        zipcode: "",
-        payment: "",
-      });
-      setTimeout(() => {
-        navigate("/order");
-      }, 1500);
+      setLoading(true);
+      if (formdata.payment === "cash") {
+        const res = await addcheckoutApi(formdata);
+        console.log("res: ", res);
+        Toastitysuccess("Order placed successfully with Cash on Delivery!");
+        setTimeout(() => navigate("/order"), 1500);
+        return;
+      }
+      if (formdata.payment === "stripe") {
+        await handlePayment();
+        return;
+      }
     } catch (error) {
-      Toastifyerror(error);
+      Toastifyerror(error + error.message);
     }
   };
 
@@ -128,6 +129,38 @@ function Payment() {
       const res = await getcheckoutApi();
       setcheckoutdata(res.data);
     } catch (error) {
+      Toastifyerror(error);
+    }
+  };
+
+  const handlePayment = async () => {
+    if (!checkoutdata.items || checkoutdata.items.length === 0) {
+      Toastifyerror("Cart is empty!");
+      return;
+    }
+
+    try {
+      // Map API items to Stripe line items
+      const items = checkoutdata.items.map((item) => ({
+        name: item.productname,
+        quantity: item.quantity,
+        price: Math.round(parseFloat(item.final_price) * 100),
+      }));
+
+      const res = await handlePaymentApi(items); // backend API
+      const stripe = await stripePromise;
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: res.data.id,
+      });
+
+      if (error) {
+        Toastifyerror("Something went wrong: " + error.message);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      const error =
+        err.response?.data?.error || err.message || "Something went wrong";
       Toastifyerror(error);
     }
   };
@@ -318,71 +351,57 @@ function Payment() {
                   <h2 className="text-xl text-slate-900 font-semibold mb-6">
                     Payment
                   </h2>
-                  <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                      <div>
-                        <div className="flex items-center">
-                          <input
-                            type="radio"
-                            name="payment"
-                            value="cash"
-                            checked={formdata.payment === "cash"}
-                            className="w-5 h-5 cursor-pointer"
-                            onChange={handlechange}
-                          />
 
-                          <label
-                            htmlFor="card"
-                            className="ml-4 flex gap-2 cursor-pointer"
-                          >
-                            <img
-                              src={cashondelivery}
-                              className="w-15"
-                              alt="card3"
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Cash On Delevary
-                      </p>
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    {/* Cash on Delivery */}
+                    <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-md space-y-4">
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="cash"
+                          checked={formdata.payment === "cash"}
+                          onChange={handlechange}
+                          className="w-5 h-5 cursor-pointer accent-indigo-600"
+                        />
+                        <img
+                          src={cashondelivery}
+                          alt="Cash on Delivery"
+                          className="h-20 object-contain"
+                        />
+                      </label>
+
+                      <p className="text-sm text-slate-600">Cash on Delivery</p>
+
                       {error.payment && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {error.payment}
-                        </p>
+                        <p className="text-red-500 text-sm">{error.payment}</p>
                       )}
                     </div>
-                    <div className="bg-gray-100 p-4 rounded-md border border-gray-300 max-w-sm">
-                      <div>
-                        <div className="flex items-center">
-                          <input
-                            type="radio"
-                            name="payment"
-                            value="stripe"
-                            checked={formdata.payment === "stripe"}
-                            onChange={handlechange}
-                            className="w-5 h-5 cursor-pointer"
-                          />
 
-                          <label
-                            htmlFor="paypal"
-                            className="ml-4 flex gap-2 cursor-pointer"
-                          >
-                            <img
-                              src="https://memberpress.com/wp-content/uploads/2017/09/Integrations-Stripe-1724x970-1.svg"
-                              className="w-25"
-                              alt="Stripe"
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <p className="mt-4 text-sm text-slate-500 font-medium">
-                        Pay with your Stripe account
+                    {/* Stripe */}
+                    <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-md space-y-4">
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="stripe"
+                          checked={formdata.payment === "stripe"}
+                          onChange={handlechange}
+                          className="w-5 h-5 cursor-pointer accent-indigo-600"
+                        />
+                        <img
+                          src="https://memberpress.com/wp-content/uploads/2017/09/Integrations-Stripe-1724x970-1.svg"
+                          alt="Stripe"
+                          className="h-20 object-contain"
+                        />
+                      </label>
+
+                      <p className="text-sm text-slate-600">
+                        Pay securely with your Stripe account.
                       </p>
+
                       {error.payment && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {error.payment}
-                        </p>
+                        <p className="text-red-500 text-sm">{error.payment}</p>
                       )}
                     </div>
                   </div>
@@ -430,7 +449,7 @@ function Payment() {
                         type="submit"
                         className="rounded-md px-4 py-2.5 w-full text-sm font-medium tracking-wide bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
                       >
-                        Complete Purchase
+                        {loading ? "Processing..." : "Complete Purchase"}
                       </button>
                     </div>
                   </div>

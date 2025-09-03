@@ -9,6 +9,7 @@ import Checkout from "./Checkout/index.js";
 import clientorderrouter from "./Order/index.js";
 import Customer from "./Admin/Customer/index.js";
 import { downloadInvoice } from "./utils/invoice/invoice.controller.js";
+import { paymentContoller } from "./Payment/paymentConroller.js";
 
 const featureRouer = express.Router();
 
@@ -21,6 +22,8 @@ featureRouer.use("/contact", contactRouter);
 featureRouer.use("/checkout", Checkout);
 featureRouer.use("/customer", Customer);
 featureRouer.use("/client", clientorderrouter);
+
 featureRouer.get("/download-invoice", downloadInvoice);
+featureRouer.post("/create-checkout-session", paymentContoller);
 
 export default featureRouer;

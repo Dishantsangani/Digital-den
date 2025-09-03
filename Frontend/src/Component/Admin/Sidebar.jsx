@@ -6,7 +6,7 @@ function Sidebar() {
   return (
     <>
       <div className="container flex flex-col w-60 mt-4">
-        <div className="flex h-full min-h-[700px] flex-col justify-between bg-[#F9FAFB] p-4">
+        <div className="flex h-full min-h-[755px] max-h-full flex-col justify-between bg-[#F9FAFB] p-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2 cursor-pointer">
               {/* Dashboard */}

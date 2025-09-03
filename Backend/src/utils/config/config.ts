@@ -24,6 +24,7 @@ interface Config {
     jwtsecretkey: string;
     cookies_secret: string;
   };
+  stripe: string;
 }
 
 const config: Config = {
@@ -43,6 +44,7 @@ const config: Config = {
     jwtsecretkey: process.env.JWT_SECRET_KEY || "",
     cookies_secret: process.env.COOKIES_SECRET || "",
   },
+  stripe: process.env.STRIPE_SECRET_KEY || "",
 };
 
 export default config;

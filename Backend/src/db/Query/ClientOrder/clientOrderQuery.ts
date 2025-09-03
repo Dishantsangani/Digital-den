@@ -10,7 +10,7 @@ export const GET_CLIENT_ORDER = `
       TO_CHAR(o.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at,
       SUM(oi.sub_total) AS subtotal,
       SUM(oi.discount) AS discount,
-      (SUM(oi.sub_total) - SUM(oi.discount)) AS total,
+      SUM(oi.sub_total) AS total,  -- ✅ no extra discount subtraction
       json_agg(
         json_build_object(
           'product_id', p.id,

@@ -4,7 +4,7 @@ import {
   Toastifyerror,
   Toastitysuccess,
 } from "../../Component/Notification/Toastitynotificaition";
-import { contactApi } from "../../API/Contact/contactApi";
+import { contactApi } from "../../API/Web/contactApi";
 
 function Contact() {
   const [formdata, setformdata] = useState({

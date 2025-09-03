@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
-import { GetDashboardData } from "../../API/Admin/adminApi";
+import {
+  GetDashboardData,
+  GetDashboarMostsales,
+} from "../../API/Admin/dashboardApi";
+import Mostsalesproduct from "./Dashboard/Mostsalesproduct";
+import Totalsalesmonth from "./Dashboard/Totalsalesmonth";
+import Salesbycategory from "./Dashboard/Salesbycategory";
+import Growthdecline from "./Dashboard/Growthdecline";
 
 function Dashboard() {
   const [getdata, setgetdata] = useState([]);
-
   const featchedDashboard = async () => {
     try {
       const res = await GetDashboardData();
@@ -18,10 +24,9 @@ function Dashboard() {
   useEffect(() => {
     featchedDashboard();
   }, []);
-
   return (
     <>
-      <div className=" flex-col max-w-full">
+      <div className="bg-gray-100 p-6 min-h-[380px] flex flex-col">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <h1 className="text-4xl text-center text-slate-900 font-bold">
             Welcome to <span className="text-indigo-600">DigitalDen !</span>
@@ -30,9 +35,9 @@ function Dashboard() {
             A world of products at your fingertips.
           </p>
         </div>
-        <div className="flex flex-wrap gap-4 p-4">
+        <div className="flex flex-wrap gap-4 p-4 ">
           {/* product */}
-          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="flex flex-1 min-w-[200px] hover:shadow-lg hover:-translate-y-1 rounded-2xl p-5 border bg-white border-gray-200 shadow-sm  transition-shadow duration-200">
             <div className="flex items-center gap-4 w-full">
               {/* Icon */}
               <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full">
@@ -53,7 +58,7 @@ function Dashboard() {
             </div>
           </div>{" "}
           {/* order */}
-          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-shadow duration-200">
             <div className="flex items-center gap-4 w-full">
               {/* Icon */}
               <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full ">
@@ -74,7 +79,7 @@ function Dashboard() {
             </div>
           </div>{" "}
           {/* Client */}
-          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-shadow duration-200">
             <div className="flex items-center gap-4 w-full">
               {/* Icon */}
               <div className="p-3 rounded-xl bg-orange-100 text-orange-600">
@@ -99,7 +104,7 @@ function Dashboard() {
             </div>
           </div>{" "}
           {/*Balance  */}
-          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-shadow duration-200">
             <div className="flex items-center gap-4 w-full">
               {/* Icon */}
               <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full ">
@@ -124,7 +129,7 @@ function Dashboard() {
             </div>
           </div>{" "}
           {/*inquiry  */}
-          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <div className="flex flex-1 min-w-[200px] rounded-2xl p-5 border bg-white border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-shadow duration-200">
             <div className="flex items-center gap-4 w-full">
               {/* Icon */}
               <div class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full ">
@@ -148,40 +153,18 @@ function Dashboard() {
             </div>
           </div>
           {/*  */}
-        </div>
-        <h2 className="text-[#0d0f1c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-          Recent Activity
-        </h2>
-        <div className="px-4 py-3 @container">
-          <div className="flex overflow-hidden rounded-xl border border-[#ced2e9] bg-[#f8f9fc]">
-            <table className="flex-1">
-              <thead>
-                <tr className="bg-[#f8f9fc]">
-                  <th className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-120 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
-                    Date
-                  </th>
-                  <th className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-240 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
-                    Activity
-                  </th>
-                  <th className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-360 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
-                    Details
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-t border-t-[#ced2e9]">
-                  <td className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-120 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
-                    2024-03-15
-                  </td>
-                  <td className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-240 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
-                    Received Stock
-                  </td>
-                  <td className="table-f757c4c4-7e52-4383-8983-b90e147b47f9-column-360 h-[72px] px-4 py-2 w-[400px] text-[#47569e] text-sm font-normal leading-normal">
-                    100 units of Product A
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+            {/* Sales Overview */}
+            <Totalsalesmonth />
+
+            {/* Top Selling Products */}
+            <Mostsalesproduct />
+
+            {/* Sales by Category */}
+            <Salesbycategory />
+
+            {/* Monthly Growth */}
+            <Growthdecline />
           </div>
         </div>
       </div>

@@ -15,10 +15,10 @@ function Layout() {
       <div className="flex">
         {/* Sidebar */}
         <div
-          className={`fixed z-20 top-0 left-0 h-full w-64  text-white transform pt-16
+          className={`fixed z-20 top-0 left-0 h-full w-64  text-white transform pt-18
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
           transition-all ease-in-out duration-300 
-          lg:translate-x-0 lg:relative lg:w-64`}
+          lg:translate-x-0 lg:relative lg:w-56`}
         >
           <Sidebar />
         </div>

@@ -8,6 +8,7 @@ export const contactApi = (formdata) => {
   });
 };
 
+// Admin
 export const getcontactApi = async () => {
   const response = await axios.get(`${BASE_URL}/getinquery`, {
     withCredentials: true,
