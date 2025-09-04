@@ -27,4 +27,17 @@ export const addProductApi = (fd) => {
   }
 };
 
-
+export const restockProductApi = async (items) => {
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/restockproduct`,
+      { items }, // wrap array under "items"
+      { withCredentials: true }
+    );
+    return response.data.data; // assuming backend returns { data: [...] }
+  } catch (error) {
+    console.error(error);
+    Toastifyerror(error);
+    throw error;
+  }
+};

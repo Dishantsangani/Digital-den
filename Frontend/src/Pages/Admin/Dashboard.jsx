@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
-import {
-  GetDashboardData,
-  GetDashboarMostsales,
-} from "../../API/Admin/dashboardApi";
+import { GetDashboardData } from "../../API/Admin/dashboardApi";
 import Mostsalesproduct from "./Dashboard/Mostsalesproduct";
 import Totalsalesmonth from "./Dashboard/Totalsalesmonth";
 import Salesbycategory from "./Dashboard/Salesbycategory";

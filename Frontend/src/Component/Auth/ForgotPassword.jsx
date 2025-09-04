@@ -35,7 +35,7 @@ function ForgotPassword() {
       await forgotPasswordApi(email);
       Toastitysuccess("Email Send Successfully !");
     } catch (error) {
-      Toastifyerror(error.response?.data?.message || "Something went wrong");
+      Toastifyerror(error);
     } finally {
       setLoading(false);
     }

@@ -6,7 +6,10 @@ import shopingbag from "../../assets/Web/Customer/shopping_bag.png";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useCart } from "../../Context/CartContext";
-import { Toastitysuccess } from "../../Component/Notification/Toastitynotificaition";
+import {
+  Toastifyerror,
+  Toastitysuccess,
+} from "../../Component/Notification/Toastitynotificaition";
 
 function Home() {
   const { addToCart } = useCart();
@@ -51,7 +54,7 @@ function Home() {
 
         setProductsByCategory(grouped);
       })
-      .catch((err) => console.log("error", err));
+      .catch((error) => Toastifyerror(error));
   }, []);
 
   const handleaddtocart = async (id) => {
@@ -62,7 +65,7 @@ function Home() {
       if (error.response?.status === 401) {
         navigate("/signin");
       } else {
-        console.log(error);
+        Toastifyerror(error);
       }
     }
   };

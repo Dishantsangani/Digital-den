@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import { Toastitysuccess } from "../Notification/Toastitynotificaition";
+import { ToastContainer } from "react-toastify";
+import {
+  Toastifyerror,
+  Toastitysuccess,
+} from "../Notification/Toastitynotificaition";
 import { signupApi } from "../../API/Auth/authApi";
 
 function Signup() {
@@ -87,10 +90,7 @@ function Signup() {
       })
       .catch((error) => {
         setErrors(true);
-        const errorMessage =
-          error.response?.data?.message || "Something went wrong";
-
-        toast.error(errorMessage);
+        Toastifyerror(error);
         setLoading(false);
       })
       .finally(() => setLoading(false));

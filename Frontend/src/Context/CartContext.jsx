@@ -60,8 +60,8 @@ export const CartProvider = ({ children }) => {
       const updatedItem = updatedItems.find((item) => item.id === id);
 
       // Call API with correct quantity
-      incrementItemApi(id, updatedItem.quantity).catch((err) =>
-        Toastifyerror(err)
+      incrementItemApi(id, updatedItem.quantity).catch((error) =>
+        Toastifyerror(error)
       );
 
       return { ...prev, items: updatedItems };
@@ -79,8 +79,8 @@ export const CartProvider = ({ children }) => {
       const updatedItem = updatedItems.find((item) => item.id === id);
 
       if (updatedItem) {
-        decrementItemApi(id, updatedItem.quantity).catch((err) =>
-          Toastifyerror(err)
+        decrementItemApi(id, updatedItem.quantity).catch((error) =>
+          Toastifyerror(error)
         );
       }
 

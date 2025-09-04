@@ -120,7 +120,7 @@ function Payment() {
         return;
       }
     } catch (error) {
-      Toastifyerror(error + error.message);
+      Toastifyerror(error);
     }
   };
 
@@ -157,10 +157,7 @@ function Payment() {
       if (error) {
         Toastifyerror("Something went wrong: " + error.message);
       }
-    } catch (err) {
-      console.error("Checkout error:", err);
-      const error =
-        err.response?.data?.error || err.message || "Something went wrong";
+    } catch (error) {
       Toastifyerror(error);
     }
   };

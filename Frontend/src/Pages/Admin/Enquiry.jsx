@@ -3,6 +3,9 @@ import { Toastifyerror } from "../../Component/Notification/Toastitynotificaitio
 import { getcontactApi } from "../../API/Web/contactApi";
 function Enquiry() {
   const [getdata, setgetdata] = useState([]);
+  const [isOpen, setisOpen] = useState(false);
+  // Replay
+  const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +49,22 @@ function Enquiry() {
   useEffect(() => {
     featchedData();
   }, []);
+
+  const openItems = (items) => {
+    setSelectedOrderItems(items);
+    setisOpen(true);
+  };
+
+  const [replyText, setReplyText] = useState("");
+
+  const handleReply = () => {
+    if (!replyText.trim()) return;
+    console.log("Reply to:", selectedOrderItems.email);
+    console.log("Message:", replyText);
+    // Here you can call an API to send the reply
+    setReplyText("");
+    setisOpen(false); // Close modal after sending
+  };
 
   return (
     <>
@@ -111,6 +130,9 @@ function Enquiry() {
                 </th>
                 <th className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
                   Message
+                </th>{" "}
+                <th className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 px-4 py-3 text-left text-[#0d0f1c] w-[100px] text-sm font-medium leading-normal">
+                  Reply
                 </th>
               </tr>
             </thead>
@@ -125,6 +147,15 @@ function Enquiry() {
                   </td>
                   <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                     {item.message}
+                  </td>
+                  <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[150px] text-indigo-600 text-sm font-normal leading-normal">
+                    {/* {item.message} */}
+                    <button
+                      className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+                      onClick={() => openItems(item)}
+                    >
+                      Reply
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -166,6 +197,81 @@ function Enquiry() {
           </button>
         </div>
       </div>
+
+      {/* Replay Model */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto"
+          aria-modal="true"
+        >
+          <div className="relative w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
+            {/* Header */}
+            <div className="flex justify-between bg-indigo-600  items-center p-4 border-b border-gray-200">
+              <h3 className="text-xl font-semibold text-white">
+                Reply To Customer
+              </h3>
+              <button
+                type="button"
+                onClick={() => setisOpen(false)}
+                className="text-gray-400 hover:text-gray-700 rounded-lg p-1"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 space-y-4">
+              <p className="text-gray-700">
+                <strong>Name:</strong> {selectedOrderItems?.name}
+              </p>
+              <p className="text-gray-700">
+                <strong>Email:</strong> {selectedOrderItems?.email}
+              </p>
+              <p className="text-gray-700">
+                <strong>Message:</strong> {selectedOrderItems?.message}
+              </p>
+
+              <textarea
+                placeholder="Write your reply here..."
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                rows={5}
+              />
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end items-center p-4 border-t border-gray-200 space-x-3">
+              <button
+                type="button"
+                onClick={() => setisOpen(false)}
+                className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleReply}
+                className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+              >
+                Send Reply
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

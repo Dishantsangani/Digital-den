@@ -4,6 +4,7 @@ import { kMessages } from "./../../../utils/config/constants.js";
 import config from "../../../utils/config/config.js";
 import { AuthRequest } from "../Schema/tokenInterface.js";
 import { StatusCodes } from "../../../utils/config/constants.js";
+import logger from "../../../utils/Logger/index.js";
 
 export const authMiddleware = (
   req: AuthRequest,
@@ -25,6 +26,7 @@ export const authMiddleware = (
 
     next();
   } catch (error: any) {
+    logger.error("Auth Middleware Error", error);
     return res.status(StatusCodes.FORBIDDEN).json({ message: error.message });
   }
 };

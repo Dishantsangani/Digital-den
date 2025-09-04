@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthServices } from "../Services/authServices.js";
 import { kMessages, StatusCodes } from "../../../utils/config/constants.js";
 import { generateCookies } from "../../utils/Cookies/generateCookies.js";
+import logger from "../../../utils/Logger/index.js";
 
 export class AuthController {
   constructor(private services: AuthServices) {}
@@ -19,6 +20,7 @@ export class AuthController {
       await generateCookies(res, result.token);
       return res.status(StatusCodes.CREATED).json({ data: result });
     } catch (error: any) {
+      logger.error("Sign Up Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -32,6 +34,7 @@ export class AuthController {
       await generateCookies(res, result.token);
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("Sign In Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -46,6 +49,7 @@ export class AuthController {
 
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("Forgot Password Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -64,6 +68,7 @@ export class AuthController {
         .status(StatusCodes.OK)
         .json({ data: user, message: kMessages.SET_PASSWORD });
     } catch (error: any) {
+      logger.error("Set Password Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });

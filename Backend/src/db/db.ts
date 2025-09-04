@@ -1,5 +1,6 @@
 import config from "../utils/config/config.js";
 import { Pool, QueryResult } from "pg";
+import logger from "../utils/Logger/index.js";
 
 interface IDBClient {
   queryForOne(query: string, params?: any[]): Promise<any>;
@@ -14,7 +15,7 @@ class PostgresqlClient implements IDBClient {
     this.pool
       .connect()
       .then(() => {
-        console.log("Database connected successfully");
+        logger.info("Database connected successfully");
       })
       .catch((e: Error) => console.log("Database Conneted Error", e.message));
     this.pool.on("error", (error: Error) => {

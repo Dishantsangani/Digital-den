@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "../../../utils/config/constants.js";
 import { ProductService } from "../Service/productService.js";
+import logger from "../../../utils/Logger/index.js";
 
-class ProductController {
+export class ProductController {
   constructor(private service: ProductService) {}
 
   getProduct = async (req: Request, res: Response) => {
@@ -10,6 +11,7 @@ class ProductController {
       const result = await this.service.getProductServices();
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("get Product Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -45,6 +47,7 @@ class ProductController {
         .status(StatusCodes.CREATED)
         .json({ message: "Product Created Successfully", data: result });
     } catch (error: any) {
+      logger.error("Create Product Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -59,6 +62,23 @@ class ProductController {
 
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("Delete Product Error", error);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
+  };
+
+  restockProduct = async (req: Request, res: Response) => {
+    try {
+      const { items } = req.body;
+      if (!items || !Array.isArray(items)) {
+        return res.status(400).json({ message: "Invalid items array" });
+      }
+      const result = await this.service.restockProductsService(items);
+      return res.status(StatusCodes.OK).json({ data: result });
+    } catch (error: any) {
+      logger.error("Restock Product Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });

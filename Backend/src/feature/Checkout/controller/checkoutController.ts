@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CheckoutServices } from "../Service/checkoutServices.js";
 import { StatusCodes } from "../../../utils/config/constants.js";
 import { AuthRequest } from "../../utils/Schema/tokenInterface.js";
+import logger from "../../../utils/Logger/index.js";
 
 export class CheckoutController {
   constructor(private services: CheckoutServices) {}
@@ -27,6 +28,7 @@ export class CheckoutController {
       );
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("Checkout Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });
@@ -47,6 +49,7 @@ export class CheckoutController {
       const result = await this.services.getCheckoutServices(userId);
       return res.status(StatusCodes.OK).json({ data: result });
     } catch (error: any) {
+      logger.error("Get Checkout Error", error);
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: error.message });

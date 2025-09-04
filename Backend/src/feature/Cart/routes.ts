@@ -1,6 +1,5 @@
 import express from "express";
 import { CartController } from "./Controller/cartController.js";
-import { authMiddleware } from "../utils/Middleware/authMiddleware.js";
 
 export class CartRouter {
   constructor(private controller: CartController) {}
@@ -8,19 +7,15 @@ export class CartRouter {
   getRouter() {
     const cartRouter = express.Router();
 
-    cartRouter
-      .route("/addtocart")
-      .post(authMiddleware, this.controller.addToCart);
+    cartRouter.route("/addtocart").post(this.controller.addToCart);
 
-    cartRouter.route("/getcart").get(authMiddleware, this.controller.getCart);
+    cartRouter.route("/getcart").get(this.controller.getCart);
 
     cartRouter
       .route("/deletecart/:id")
-      .delete(authMiddleware, this.controller.deleteToCartItem);
+      .delete(this.controller.deleteToCartItem);
 
-    cartRouter
-      .route("/updatecart/:id")
-      .put(authMiddleware, this.controller.updateToCartItem);
+    cartRouter.route("/updatecart/:id").put(this.controller.updateToCartItem);
 
     return cartRouter;
   }

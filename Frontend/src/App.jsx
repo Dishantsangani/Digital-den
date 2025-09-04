@@ -1,4 +1,7 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CartProvider } from "./Context/CartContext";
+
 // WEB
 import Home from "./Pages/Web/Home";
 import About from "./Pages/Web/About";
@@ -12,24 +15,24 @@ import Order from "./Pages/Web/Order";
 import Signup from "./Component/Auth/Signup";
 import Signin from "./Component/Auth/Signin";
 import ForgotPassword from "./Component/Auth/ForgotPassword";
+import SetPassword from "./Component/Auth/SetPassword";
 
 // Admin
 import Dashboard from "./Pages/Admin/Dashboard";
 import AdminProducts from "./Pages/Admin/Products/AdminProducts";
 import Adminorder from "./Pages/Admin/Order/Adminorder";
 import Customer from "./Pages/Admin/Customer/Customer";
-import Report from "./Pages/Admin/Report";
 import Enquiry from "./Pages/Admin/Enquiry";
 import Setting from "./Pages/Admin/Setting";
 import Restock from "./Pages/Admin/Restock";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CartProvider } from "./Context/CartContext";
-
 // Layout
 import WebLayout from "./Component/Common/WebLayout";
 import Layout from "./Component/Admin/Layout";
-import SetPassword from "./Component/Auth/SetPassword";
+import AdminSignin from "./Component/Admin/Auth/AdminSignin";
+
+// Protect Routes
+import ProtectedRoute from "./Component/RouteProtected/ProtectedRoute";
 
 function App() {
   return (
@@ -37,6 +40,13 @@ function App() {
       <CartProvider>
         <BrowserRouter>
           <Routes>
+            {/* Auth */}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/set-password" element={<SetPassword />} />
+            <Route path="/admin/signin" element={<AdminSignin />} />
+
             {/* Website */}
             <Route element={<WebLayout />}>
               <Route path="/" element={<Home />} />
@@ -47,20 +57,58 @@ function App() {
               <Route path="/checkout" element={<Payment />} />
               <Route path="/order" element={<Order />} />
             </Route>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/set-password" element={<SetPassword />} />
+
             {/* Admin */}
             <Route element={<Layout />}>
-              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/admin/products" element={<AdminProducts />} />
-              <Route path="/admin/order" element={<Adminorder />} />
-              <Route path="/admin/customer" element={<Customer />} />
-              <Route path="/admin/enquiry" element={<Enquiry />} />
-              <Route path="/admin/report" element={<Report />} />
-              <Route path="/admin/setting" element={<Setting />} />
-              <Route path="/admin/restock" element={<Restock />} />
+              <Route
+                path="/admin/order"
+                element={
+                  <ProtectedRoute>
+                    <Adminorder />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/customer"
+                element={
+                  <ProtectedRoute>
+                    <Customer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/enquiry"
+                element={
+                  <ProtectedRoute>
+                    <Enquiry />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/restock"
+                element={
+                  <ProtectedRoute>
+                    <Restock />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/setting"
+                element={
+                  <ProtectedRoute>
+                    <Setting />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         </BrowserRouter>

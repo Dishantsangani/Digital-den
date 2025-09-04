@@ -3,6 +3,7 @@ import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCT,
+  RESTOCK_PRODUCT,
 } from "../../../db/Query/Product/productQuery.js";
 
 export class ProductRepository {
@@ -33,5 +34,9 @@ export class ProductRepository {
 
   async deleteProductRepository(id: number) {
     return await dbclient.queryForOne(DELETE_PRODUCT, [id]);
+  }
+
+  async UpdateProductRepository(id: number, stockquentity: number) {
+    return await dbclient.queryForOne(RESTOCK_PRODUCT, [id, stockquentity]);
   }
 }

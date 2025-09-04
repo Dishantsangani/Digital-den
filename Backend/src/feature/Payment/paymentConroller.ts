@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import config from "../../utils/config/config.js";
 import { Request, Response } from "express";
 import { StatusCodes } from "../../utils/config/constants.js";
+import logger from "../../utils/Logger/index.js";
 
 const stripe = new Stripe(config.stripe, { apiVersion: "2025-08-27.basil" });
 
@@ -30,8 +31,8 @@ export const paymentContoller = async (req: Request, res: Response) => {
 
     res.json({ id: session.id });
   } catch (error: any) {
-    console.error("Stripe session error:", error);
-    res
+    logger.error("Payment Error", error);
+    return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
   }

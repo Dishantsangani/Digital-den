@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import PDFDocument from "pdfkit";
 import axios from "axios";
+import logger from "../../../utils/Logger";
 export const downloadInvoice = async (req: Request, res: Response) => {
   try {
     // Call your API
@@ -126,8 +127,8 @@ export const downloadInvoice = async (req: Request, res: Response) => {
     });
 
     doc.end();
-  } catch (err) {
-    console.error("Error generating invoice:", err);
-    res.status(500).send("Error generating invoice");
+  } catch (error) {
+    logger.error("Invoice Generate Error", error);
+    return res.status(500).send("Error generating invoice");
   }
 };

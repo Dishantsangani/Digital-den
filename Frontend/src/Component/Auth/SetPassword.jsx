@@ -55,7 +55,7 @@ function SetPassword() {
       Toastitysuccess("Password set successfully!");
       navigate("/");
     } catch (error) {
-      Toastifyerror(error.response?.data?.message || "Something went wrong");
+      Toastifyerror(error);
     } finally {
       setLoading(false);
     }

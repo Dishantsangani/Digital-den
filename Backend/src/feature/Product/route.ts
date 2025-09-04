@@ -1,6 +1,7 @@
 import express from "express";
 import ProductController from "./controller/productController.js";
 import { upload } from "./utils/upload.js";
+import { authMiddleware } from "../utils/Middleware/authMiddleware.js";
 
 class ProductRouter {
   constructor(private controller: ProductController) {}
@@ -11,11 +12,19 @@ class ProductRouter {
 
     productrouter
       .route("/createproduct")
-      .post(upload.single("productImage"), this.controller.createProduct);
+      .post(
+        upload.single("productImage"),
+        authMiddleware,
+        this.controller.createProduct
+      );
 
     productrouter
       .route("/deleteproduct/:id")
-      .delete(this.controller.deleteProduct);
+      .delete(authMiddleware, this.controller.deleteProduct);
+
+    productrouter
+      .route("/restockproduct")
+      .patch(authMiddleware, this.controller.restockProduct);
 
     return productrouter;
   }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import support from "../../assets/Common/Support/bx_support.svg";
 import { chatbotApi } from "../../API/Web/chatbotApi";
+import { Toastifyerror } from "../Notification/Toastitynotificaition";
 
 function Support() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ function Support() {
         { message: botResponse, sender: "bot" },
       ]);
     } catch (error) {
-      console.error("Error sending message:", error);
+      Toastifyerror(error);
       setChatMessages([
         ...newMessages,
         { message: "Error: Could not get response from AI", sender: "bot" },
