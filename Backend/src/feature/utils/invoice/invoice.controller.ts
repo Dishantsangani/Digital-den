@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import PDFDocument from "pdfkit";
 import axios from "axios";
-import logger from "../../../utils/Logger";
+import logger from "../../../utils/Logger/index.js";
+
 export const downloadInvoice = async (req: Request, res: Response) => {
   try {
-    // Call your API
     const apiRes = await axios.get(
       "http://localhost:8080/base/client/getclientorder"
     );
-    const data = apiRes.data.data; // response has { data: { ... } }
+    const data = apiRes.data.data;
 
     const doc = new PDFDocument({ margin: 0 });
 
@@ -128,7 +128,7 @@ export const downloadInvoice = async (req: Request, res: Response) => {
 
     doc.end();
   } catch (error) {
-    logger.error("Invoice Generate Error", error);
+    logger.error("Auth Middleware Error", error);
     return res.status(500).send("Error generating invoice");
   }
 };

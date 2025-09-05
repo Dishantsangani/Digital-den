@@ -183,6 +183,7 @@ function AdminProducts() {
         description: "",
         productImage: "",
       });
+      featchproduct();
       setErrors({});
     } catch (error) {
       Toastifyerror(error);
@@ -191,8 +192,10 @@ function AdminProducts() {
 
   const handledelete = async (id) => {
     try {
-      await deleteProductDataApi(id);
-      Toastitysuccess("Product Deleted !");
+      const res = await deleteProductDataApi(id);
+      if (res && res.success) {
+        Toastitysuccess("Product Deleted !");
+      }
       featchproduct();
     } catch (error) {
       Toastifyerror(error);

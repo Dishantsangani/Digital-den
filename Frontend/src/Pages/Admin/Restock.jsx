@@ -70,7 +70,7 @@ const Restock = () => {
 
     setLoading(true);
     try {
-      const updatedProducts = await restockProductApi({ items: restockItems });
+      const updatedProducts = await restockProductApi(restockItems);
       setProducts(
         products.map((p) => {
           const updated = updatedProducts.find((up) => up.id === p.id);
