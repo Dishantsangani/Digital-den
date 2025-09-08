@@ -16,10 +16,10 @@ import Customer from "./Admin/Customer/index.js";
 
 // Utils
 import { downloadInvoice } from "./utils/invoice/invoice.controller.js";
-import { paymentContoller } from "./Payment/paymentConroller.js";
 
 // Middleware
 import { authMiddleware } from "./utils/Middleware/authMiddleware.js";
+import { paymentContoller } from "./Payment/paymentConroller.js";
 
 const featureRouer = express.Router();
 
@@ -38,7 +38,7 @@ featureRouer.use("/contact", authMiddleware, contactRouter);
 featureRouer.use("/customer", authMiddleware, Customer);
 
 // Utils
-featureRouer.get("/download-invoice", downloadInvoice);
+featureRouer.post("/download-invoice", downloadInvoice);
 featureRouer.post("/create-checkout-session", paymentContoller);
 
 // Route Protect

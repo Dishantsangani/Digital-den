@@ -11,6 +11,8 @@ import {
 } from "chart.js";
 import { MostSalesProductApi } from "../../../API/Admin/dashboardApi";
 import { Toastifyerror } from "../../../Component/Notification/Toastitynotificaition";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../../Component/Common/Loader";
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +25,8 @@ ChartJS.register(
 
 const Mostsalesproduct = () => {
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const fetchMostSales = async () => {
     try {
       const res = await MostSalesProductApi();
@@ -42,6 +46,8 @@ const Mostsalesproduct = () => {
       });
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -50,6 +56,7 @@ const Mostsalesproduct = () => {
 
   return (
     <div className="max-w-sm w-full hover:shadow-lg hover:-translate-y-1 bg-white rounded-lg shadow-sm p-4 md:p-6">
+      <ToastContainer />
       {/* Header like screenshot */}
       <h2 className="text-lg font-semibold text-gray-900">
         Top Selling Products
@@ -64,7 +71,13 @@ const Mostsalesproduct = () => {
 
       {/* Horizontal chart */}
       <div className="h-64 mt-4">
-        {chartData ? (
+        {loading ? (
+          <Loader />
+        ) : !chartData ||
+          !chartData.datasets ||
+          chartData.datasets.length === 0 ? (
+          <p className="text-gray-500 text-sm">No data available</p>
+        ) : (
           <Bar
             data={chartData}
             options={{
@@ -92,8 +105,6 @@ const Mostsalesproduct = () => {
               },
             }}
           />
-        ) : (
-          <p className="text-gray-500 text-sm">Loading chart...</p>
         )}
       </div>
     </div>

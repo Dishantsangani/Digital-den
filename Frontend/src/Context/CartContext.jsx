@@ -1,66 +1,61 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
-import {
-  decrementItemApi,
-  deleteCartApi,
-  getCart,
-  incrementItemApi,
-} from "../API/Web/cartApi";
+import { deleteCartApi, getCartApi, updateCartApi } from "../API/Web/cartApi";
 import {
   Toastifyerror,
   Toastitysuccess,
 } from "../Component/Notification/Toastitynotificaition";
+import axios from "axios";
 
 const CartContext = createContext();
+
+const BASE_URL = "http://localhost:8080/base/auth/cart/addtocart";
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({ items: [] });
 
-  // get cart from server
+  // Featch Cart Data
   const fetchCart = async () => {
     try {
-      const res = await getCart();
-      setCart(res.data.data || { items: [], total_price: 0 });
+      const res = await getCartApi();
+      setCart(res.data || { items: [], total_price: 0 });
     } catch (error) {
       if (error.response?.status !== 401) {
-        Toastifyerror(error);
+        console.log("Cart Error", error);
       }
     }
   };
 
   // Add to cart
   const addToCart = async (productid, quantity = 1) => {
-    const res = await axios.post(
-      "http://localhost:8080/base/auth/cart/addtocart",
+    const response = await axios.post(
+      BASE_URL,
       { productid, quantity },
       { withCredentials: true }
     );
     await fetchCart();
-    return res;
+    return response;
   };
 
   // Delete item
   const deleteItem = async (id) => {
     try {
       const res = await deleteCartApi(id);
-      console.log("res: ", res);
       Toastitysuccess("Products Deleted");
       await fetchCart();
+      return res;
     } catch (error) {
       Toastifyerror(error);
     }
   };
 
+  // Increment Item
   const incrementItem = (id) => {
     setCart((prev) => {
       const updatedItems = prev.items.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       );
-
       const updatedItem = updatedItems.find((item) => item.id === id);
-
-      // Call API with correct quantity
-      incrementItemApi(id, updatedItem.quantity).catch((error) =>
+      updateCartApi(id, updatedItem.quantity).catch((error) =>
         Toastifyerror(error)
       );
 
@@ -68,6 +63,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  // Decrement Item
   const decrementItem = (id) => {
     setCart((prev) => {
       const updatedItems = prev.items.map((item) =>
@@ -79,7 +75,7 @@ export const CartProvider = ({ children }) => {
       const updatedItem = updatedItems.find((item) => item.id === id);
 
       if (updatedItem) {
-        decrementItemApi(id, updatedItem.quantity).catch((error) =>
+        updateCartApi(id, updatedItem.quantity).catch((error) =>
           Toastifyerror(error)
         );
       }
@@ -91,6 +87,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     fetchCart();
   }, []);
+
   return (
     <CartContext.Provider
       value={{ cart, addToCart, incrementItem, decrementItem, deleteItem }}

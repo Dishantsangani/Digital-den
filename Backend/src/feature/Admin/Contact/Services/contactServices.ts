@@ -1,3 +1,4 @@
+import { sendEnquiryMail } from "../../../utils/Mail/sendEnquiryMail.js";
 import { ContactRepository } from "../Repository/contactRepository.js";
 
 export class ContactServices {
@@ -8,5 +9,9 @@ export class ContactServices {
   }
   async getinquiryServices() {
     return await this.repo.getinqueryRepository();
+  }
+
+  async replyinquiryServices(email: string, message: string) {
+    await sendEnquiryMail(email, message);
   }
 }

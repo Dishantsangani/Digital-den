@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
 import PDFDocument from "pdfkit";
-import axios from "axios";
 import logger from "../../../utils/Logger/index.js";
 
 export const downloadInvoice = async (req: Request, res: Response) => {
   try {
-    const apiRes = await axios.get(
-      "http://localhost:8080/base/client/getclientorder"
-    );
-    const data = apiRes.data.data;
+    const data = req.body;
 
+    if (!data || !data.order_id || !data.products || !data.customer_name) {
+      return res.status(400).send("Invalid order data");
+    }
     const doc = new PDFDocument({ margin: 0 });
 
     res.setHeader("Content-Type", "application/pdf");

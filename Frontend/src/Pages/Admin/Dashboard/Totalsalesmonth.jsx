@@ -11,6 +11,8 @@ import {
 import { Bar } from "react-chartjs-2";
 import { Toastifyerror } from "../../../Component/Notification/Toastitynotificaition";
 import { GetDashboarMostsales } from "../../../API/Admin/dashboardApi";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../../Component/Common/Loader";
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +25,7 @@ ChartJS.register(
 
 function Totalsalesmonth() {
   const [salesData, setSalesData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchMostSales = async () => {
     try {
@@ -40,6 +43,8 @@ function Totalsalesmonth() {
       setSalesData(data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,6 +81,7 @@ function Totalsalesmonth() {
   return (
     <div className="max-w-sm w-full  hover:shadow-lg hover:-translate-y-1  bg-white rounded-2xl shadow-md p-6">
       {/* Header */}
+      <ToastContainer />
       <div className="flex justify-between items-center pb-4 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
@@ -113,7 +119,13 @@ function Totalsalesmonth() {
 
       {/* Chart */}
       <div className="mt-4 h-64">
-        {chartData ? (
+        {loading ? (
+          <Loader />
+        ) : !chartData ||
+          !chartData.datasets ||
+          chartData.datasets.length === 0 ? (
+          <p className="text-gray-500 text-sm">No data available</p>
+        ) : (
           <Bar
             data={chartData}
             options={{
@@ -132,8 +144,6 @@ function Totalsalesmonth() {
               },
             }}
           />
-        ) : (
-          <p className="text-gray-500 text-sm">Loading chart...</p>
         )}
       </div>
     </div>

@@ -11,6 +11,8 @@ import {
 import { Line } from "react-chartjs-2";
 import { DailySalesGrowthApi } from "../../../API/Admin/dashboardApi";
 import { Toastifyerror } from "../../../Component/Notification/Toastitynotificaition";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../../Component/Common/Loader";
 
 ChartJS.register(
   CategoryScale,
@@ -23,13 +25,15 @@ ChartJS.register(
 
 const DailySalesGrowth = () => {
   const [dailySales, setDailySales] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const featcheddata = async () => {
     try {
       const res = await DailySalesGrowthApi();
       setDailySales(res.data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +74,7 @@ const DailySalesGrowth = () => {
 
   return (
     <div className="max-w-sm  hover:shadow-lg hover:-translate-y-1 bg-white rounded-lg shadow-sm p-4 md:p-6">
+      <ToastContainer />
       <div className="flex justify-between items-start mb-4">
         <div>
           <h5 className="leading-none text-3xl font-bold text-gray-900 pb-2">
@@ -103,8 +108,12 @@ const DailySalesGrowth = () => {
         </div>
       </div>
 
-      <div className="w-full h-64">
-        {chartData ? (
+      <div className="w-full h-64 ">
+        {loading ? (
+          <Loader />
+        ) : !chartData || chartData.datasets?.length === 0 ? (
+          <p className="text-gray-500 text-sm">No data available</p>
+        ) : (
           <Line
             data={chartData}
             options={{
@@ -113,8 +122,6 @@ const DailySalesGrowth = () => {
               layout: { padding: 0 },
             }}
           />
-        ) : (
-          <p className="text-gray-500 text-sm">Loading chart...</p>
         )}
       </div>
     </div>

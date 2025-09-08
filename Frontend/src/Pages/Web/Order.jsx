@@ -2,9 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
 import { generateInvoiceApi } from "../../API/Web/invoiceApi";
 import { getOrderClientApi } from "../../API/Web/webOrderApi";
+import { ToastContainer } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 function Order() {
   const [getdata, setgetdata] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const sessionId = query.get("session_id");
+
+    if (sessionId) {
+      featchedData(sessionId);
+    }
+  }, [location.search]);
 
   const featchedData = async () => {
     try {
@@ -22,7 +34,22 @@ function Order() {
   // Invoice
   const handledownloadinvoice = async () => {
     try {
-      const blob = await generateInvoiceApi();
+      if (!getdata) return;
+
+      const orderPayload = {
+        order_id: getdata.order_id,
+        products: getdata.products || [],
+        customer_name: getdata.customer_name,
+        full_address: getdata.full_address,
+        phonenumber: getdata.phonenumber,
+        email: getdata.email,
+        subtotal: getdata.subtotal,
+        discount: getdata.discount,
+        total: getdata.total,
+        created_at: getdata.created_at,
+      };
+
+      const blob = await generateInvoiceApi(orderPayload);
       const url = window.URL.createObjectURL(blob);
 
       const link = document.createElement("a");
@@ -38,6 +65,7 @@ function Order() {
 
   return (
     <>
+      <ToastContainer />
       <div className="bg-gray-100">
         {/* Progress bar */}
         <div className="flex max-w-screen-xl  max-md:max-w-xl  mx-auto items-start">

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../../Component/Notification/Toastitynotificaition";
 import { getCustomerApi } from "../../../API/Admin/customerApi";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../../Component/Common/Loader";
 function Customer() {
   const [getData, setGetdata] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -41,6 +43,8 @@ function Customer() {
       setGetdata(res.data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,6 +53,7 @@ function Customer() {
   }, []);
   return (
     <>
+      <ToastContainer />
       <div className="layout-content-container flex flex-col max-w-full flex-1">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -125,29 +130,42 @@ function Customer() {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(currentItems) &&
+                {loading ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4 text-gray-500">
+                      <Loader />
+                    </td>
+                  </tr>
+                ) : currentItems.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4 text-gray-500">
+                      🚫 No products found
+                    </td>
+                  </tr>
+                ) : (
                   currentItems.map((item) => (
                     <tr key={item.id} className="border-t border-t-[#ced3e9]">
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         {item.firstname}
                       </td>
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-240 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         {item.lastname}
                       </td>
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         {item.phonenumber}
                       </td>
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         {item.total_orders}
                       </td>
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-360 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         {item.email}
                       </td>
-                      <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      <td className="h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm">
                         $ {item.total_amount}
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>

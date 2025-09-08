@@ -12,12 +12,14 @@ const port = config.port;
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // your React frontend
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 

@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
-import { getcontactApi } from "../../API/Web/contactApi";
+import {
+  Toastifyerror,
+  Toastitysuccess,
+} from "../../Component/Notification/Toastitynotificaition";
+import { enquiryreplyApi, getcontactApi } from "../../API/Admin/enquiryApi";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../Component/Common/Loader";
+
 function Enquiry() {
   const [getdata, setgetdata] = useState([]);
   const [isOpen, setisOpen] = useState(false);
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const [replyText, setReplyText] = useState("");
+
   // Replay
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
@@ -43,6 +54,40 @@ function Enquiry() {
       setgetdata(res.data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openItems = (items) => {
+    setSelectedOrderItems(items);
+    setisOpen(true);
+  };
+
+  const validation = () => {
+    const newerror = {};
+    if (!replyText.trim()) {
+      newerror.message = "Replay Message is required";
+    } else if (replyText.length < 8) {
+      newerror.message = "Replay Message at least  8 characters ";
+    }
+    setError(newerror);
+    return Object.keys(newerror).length === 0;
+  };
+
+  const handleReply = async () => {
+    if (!validation()) return;
+    try {
+      await enquiryreplyApi({
+        email: selectedOrderItems.email,
+        message: replyText,
+      });
+      Toastitysuccess("Reply sent successfully!");
+    } catch (error) {
+      Toastifyerror(error);
+    } finally {
+      setReplyText("");
+      setisOpen(false);
     }
   };
 
@@ -50,24 +95,9 @@ function Enquiry() {
     featchedData();
   }, []);
 
-  const openItems = (items) => {
-    setSelectedOrderItems(items);
-    setisOpen(true);
-  };
-
-  const [replyText, setReplyText] = useState("");
-
-  const handleReply = () => {
-    if (!replyText.trim()) return;
-    console.log("Reply to:", selectedOrderItems.email);
-    console.log("Message:", replyText);
-    // Here you can call an API to send the reply
-    setReplyText("");
-    setisOpen(false); // Close modal after sending
-  };
-
   return (
     <>
+      <ToastContainer />
       <div className="layout-content-container flex flex-col max-w-full flex-1">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -137,28 +167,41 @@ function Enquiry() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((item) => (
-                <tr key={item.id} className="border-t border-t-[#ced3e9]">
-                  <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
-                    {item.name}
-                  </td>
-                  <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-240 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
-                    {item.email}
-                  </td>
-                  <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
-                    {item.message}
-                  </td>
-                  <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[150px] text-indigo-600 text-sm font-normal leading-normal">
-                    {/* {item.message} */}
-                    <button
-                      className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
-                      onClick={() => openItems(item)}
-                    >
-                      Reply
-                    </button>
+              {loading ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-6">
+                    <Loader />
                   </td>
                 </tr>
-              ))}
+              ) : currentItems.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-6 text-gray-500">
+                    No products found
+                  </td>
+                </tr>
+              ) : (
+                currentItems.map((item) => (
+                  <tr key={item.id} className="border-t border-t-[#ced3e9]">
+                    <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      {item.name}
+                    </td>
+                    <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-240 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      {item.email}
+                    </td>
+                    <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
+                      {item.message}
+                    </td>
+                    <td className="table-a7b2dab7-306e-4074-9f70-a50105efc129-column-480 h-[72px] px-4 py-2 w-[150px] text-indigo-600 text-sm font-normal leading-normal">
+                      <button
+                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+                        onClick={() => openItems(item)}
+                      >
+                        Reply
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -250,6 +293,9 @@ function Enquiry() {
                 className="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 rows={5}
               />
+              {error.message && (
+                <span className="text-red-400">{error.message}</span>
+              )}
             </div>
 
             {/* Footer */}

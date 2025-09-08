@@ -147,7 +147,7 @@ function Payment() {
         price: Math.round(parseFloat(item.final_price) * 100),
       }));
 
-      const res = await handlePaymentApi(items); // backend API
+      const res = await handlePaymentApi(items, formdata); // backend API
       const stripe = await stripePromise;
 
       const { error } = await stripe.redirectToCheckout({
@@ -155,7 +155,7 @@ function Payment() {
       });
 
       if (error) {
-        Toastifyerror("Something went wrong: " + error.message);
+        Toastifyerror(error);
       }
     } catch (error) {
       Toastifyerror(error);

@@ -217,8 +217,8 @@ function Navbar() {
                               {/* Info */}
                               <div className="ml-4 flex flex-1 flex-col justify-between min-h-[96px]">
                                 {/* Name and price */}
-                                <div className="flex justify-between text-base font-medium text-gray-900">
-                                  <h3 className="truncate w-1/2">
+                                <div className="flex justify-between gap-2  text-base font-medium text-gray-900">
+                                  <h3 className="w-1/2 text-sm font-medium text-gray-900 line-clamp-2">
                                     {item.name}
                                   </h3>
                                   <p className="w-1/4 text-right">

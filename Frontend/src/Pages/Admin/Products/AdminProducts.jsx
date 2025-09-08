@@ -9,10 +9,12 @@ import {
   deleteProductDataApi,
   getProductDataApi,
 } from "../../../API/Admin/adminApi";
+import Loader from "../../../Component/Common/Loader";
 
 function AdminProducts() {
   const [model, setmodel] = useState(false);
   const [getdata, setgetdata] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [formdata, setformdata] = useState({
     productname: "",
@@ -23,7 +25,6 @@ function AdminProducts() {
     productImage: "",
     description: "",
   });
-
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
@@ -208,6 +209,8 @@ function AdminProducts() {
       setgetdata(res.data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -304,7 +307,19 @@ function AdminProducts() {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(currentItems) &&
+                {loading ? (
+                  <tr>
+                    <td colSpan="8" className="text-center py-6">
+                      <Loader />
+                    </td>
+                  </tr>
+                ) : currentItems.length === 0 ? (
+                  <tr>
+                    <td colSpan="8" className="text-center py-6 text-gray-500">
+                      No products found
+                    </td>
+                  </tr>
+                ) : (
                   currentItems.map((item) => (
                     <tr key={item.id} className="border-t border-t-[#ced2e9]">
                       <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
@@ -352,7 +367,8 @@ function AdminProducts() {
                         </svg>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>

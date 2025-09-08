@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Toastifyerror } from "../../../Component/Notification/Toastitynotificaition";
 import { getOrderApi } from "../../../API/Admin/orderApi";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../../Component/Common/Loader";
 function Adminorder() {
   const [isOpen, setisOpen] = useState(false);
   const [getdata, setgetdata] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
   // Pagination
@@ -42,11 +45,14 @@ function Adminorder() {
       setgetdata(res.data);
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     featchedData();
   }, []);
+
   const openItems = (items) => {
     setSelectedOrderItems(items);
     setisOpen(true);
@@ -58,6 +64,7 @@ function Adminorder() {
   };
   return (
     <>
+      <ToastContainer />
       <div className="max-w-full">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <h1 className="text-4xl text-slate-900 font-bold">Order !</h1>
@@ -132,34 +139,48 @@ function Adminorder() {
                 </tr>
               </thead>
               <tbody>
-                {currentOrders?.map((item) => (
-                  <tr key={item.id} className="border-t border-t-[#ced3e9]">
-                    <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
-                      {item.client.name}
-                    </td>
-                    <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
-                      {new Date(item.order_date).toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
-                      {item.client.phone}
-                    </td>
-                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
-                      {item.client.address}
-                    </td>
-                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
-                      ${item.total_sub_total}
-                    </td>
-                    <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
-                      {item.items.product_name}
-                      <button
-                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
-                        onClick={() => openItems(item.items)}
-                      >
-                        Show Items
-                      </button>
+                {loading ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-6">
+                      <Loader />
                     </td>
                   </tr>
-                ))}
+                ) : currentOrders.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-6 text-gray-500">
+                      No orders found
+                    </td>
+                  </tr>
+                ) : (
+                  currentOrders?.map((item) => (
+                    <tr key={item.id} className="border-t border-t-[#ced3e9]">
+                      <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
+                        {item.client.name}
+                      </td>
+                      <td className="px-4 py-2 text-indigo-600 text-sm font-normal leading-normal">
+                        {new Date(item.order_date).toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        {item.client.phone}
+                      </td>
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        {item.client.address}
+                      </td>
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        ${item.total_sub_total}
+                      </td>
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        {item.items.product_name}
+                        <button
+                          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+                          onClick={() => openItems(item.items)}
+                        >
+                          Show Items
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
 
               {isOpen && (

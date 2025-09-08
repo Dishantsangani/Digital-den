@@ -5,6 +5,7 @@ import Mostsalesproduct from "./Dashboard/Mostsalesproduct";
 import Totalsalesmonth from "./Dashboard/Totalsalesmonth";
 import Salesbycategory from "./Dashboard/Salesbycategory";
 import Growthdecline from "./Dashboard/Growthdecline";
+import { ToastContainer } from "react-toastify";
 
 function Dashboard() {
   const [getdata, setgetdata] = useState([]);
@@ -23,6 +24,7 @@ function Dashboard() {
   }, []);
   return (
     <>
+      <ToastContainer />
       <div className="bg-gray-100 p-6 min-h-[380px] flex flex-col">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto">
           <h1 className="text-4xl text-center text-slate-900 font-bold">

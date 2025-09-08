@@ -25,6 +25,7 @@ interface Config {
     cookies_secret: string;
   };
   stripe: string;
+  frontend_url: string;
 }
 
 const config: Config = {
@@ -45,6 +46,7 @@ const config: Config = {
     cookies_secret: process.env.COOKIES_SECRET || "",
   },
   stripe: process.env.STRIPE_SECRET_KEY || "",
+  frontend_url: process.env.FRONTEND_URL || "",
 };
 
 export default config;

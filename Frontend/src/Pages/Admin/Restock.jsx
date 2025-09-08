@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getProductDataApi, restockProductApi } from "../../API/Admin/adminApi";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
+import { ToastContainer } from "react-toastify";
+import Loader from "../../Component/Common/Loader";
 
 const Restock = () => {
   const [products, setProducts] = useState([]);
@@ -41,6 +43,8 @@ const Restock = () => {
       );
     } catch (error) {
       Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,8 +85,6 @@ const Restock = () => {
       );
     } catch (error) {
       Toastifyerror(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -94,6 +96,7 @@ const Restock = () => {
 
   return (
     <>
+      <ToastContainer />
       {/* Header */}
       <div className="layout-content-container flex flex-col max-w-full flex-1">
         <div className="bg-white p-8 w-full rounded-lg max-w-5xl mx-auto mb-4">
@@ -167,55 +170,62 @@ const Restock = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.length === 0 && (
+              {loading ? (
                 <tr>
-                  <td colSpan={4} className="text-center py-4 text-gray-500">
-                    No products found.
+                  <td colSpan="8" className="text-center py-6">
+                    <Loader />
                   </td>
                 </tr>
-              )}
-              {currentItems.map((product) => (
-                <tr
-                  key={product.id}
-                  className="border-t  h-[72px] border-t-[#ced3e9]"
-                >
-                  <img
-                    className="w-16 h-16 object-cover rounded"
-                    src={`http://localhost:8080${product.productimage}`}
-                  />
-
-                  <td className="px-4 py-2 h-[72px] text-indigo-600">
-                    {product.productname}
+              ) : currentItems.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-6 text-gray-500">
+                    No products found
                   </td>
-                  <td className="px-4 py-2 h-[72px] text-indigo-600">
-                    {product.stockquantity}
-                  </td>
-                  <td className="px-4 py-2 h-[72px] text-indigo-600">
-                    {product.price}
-                  </td>
-                  <td className="px-4 py-2">
-                    <input
-                      type="number"
-                      min="0"
-                      placeholder="Qty"
-                      value={product.restockAmount}
-                      onChange={(e) =>
-                        handleRestockChange(product.id, e.target.value)
-                      }
-                      className={`w-full px-3 py-2 text-sm border rounded-lg ${
-                        errors[product.id]
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
+                </tr>
+              ) : (
+                currentItems.map((product) => (
+                  <tr
+                    key={product.id}
+                    className="border-t  h-[72px] border-t-[#ced3e9]"
+                  >
+                    <img
+                      className="w-16 h-16 object-cover rounded"
+                      src={`http://localhost:8080${product.productimage}`}
                     />
-                    {errors[product.id] && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors[product.id]}
-                      </p>
-                    )}
-                  </td>
-                </tr>
-              ))}
+
+                    <td className="px-4 py-2 h-[72px] text-indigo-600">
+                      {product.productname}
+                    </td>
+                    <td className="px-4 py-2 h-[72px] text-indigo-600">
+                      {product.stockquantity}
+                    </td>
+                    <td className="px-4 py-2 h-[72px] text-indigo-600">
+                      {product.price}
+                    </td>
+                    <td className="px-4 py-2">
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="Qty"
+                        value={product.restockAmount}
+                        onChange={(e) =>
+                          handleRestockChange(product.id, e.target.value)
+                        }
+                        className={`w-full px-3 py-2 text-sm border rounded-lg ${
+                          errors[product.id]
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        }`}
+                      />
+                      {errors[product.id] && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[product.id]}
+                        </p>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
