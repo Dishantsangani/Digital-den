@@ -3,20 +3,9 @@ import { Toastifyerror } from "../../Component/Notification/Toastitynotificaitio
 import { generateInvoiceApi } from "../../API/Web/invoiceApi";
 import { getOrderClientApi } from "../../API/Web/webOrderApi";
 import { ToastContainer } from "react-toastify";
-import { useLocation } from "react-router-dom";
 
 function Order() {
   const [getdata, setgetdata] = useState([]);
-  const location = useLocation();
-
-  useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    const sessionId = query.get("session_id");
-
-    if (sessionId) {
-      featchedData(sessionId);
-    }
-  }, [location.search]);
 
   const featchedData = async () => {
     try {
