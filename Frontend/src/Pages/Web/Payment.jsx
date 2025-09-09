@@ -103,6 +103,15 @@ function Payment() {
     setformdata({ ...formdata, [name]: value });
   };
 
+  const checkout = async () => {
+    try {
+      const res = await getcheckoutApi();
+      setcheckoutdata(res.data);
+    } catch (error) {
+      Toastifyerror(error);
+    }
+  };
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (!validation()) return;
@@ -121,15 +130,8 @@ function Payment() {
       }
     } catch (error) {
       Toastifyerror(error);
-    }
-  };
-
-  const checkout = async () => {
-    try {
-      const res = await getcheckoutApi();
-      setcheckoutdata(res.data);
-    } catch (error) {
-      Toastifyerror(error);
+    } finally {
+      setLoading(false);
     }
   };
 

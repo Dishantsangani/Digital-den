@@ -12,7 +12,7 @@ const port = config.port;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: config.frontend_url,
     credentials: true,
   })
 );
