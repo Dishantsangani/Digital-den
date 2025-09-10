@@ -33,6 +33,11 @@ app.use(cookieParser());
 
 app.use(baseRouter);
 
+app.get("/", (req, res) => {
+  res.send(`<h1> Welcome to DigitalDen Server!</h1>
+    <p>Backend is running successfully.</p>`);
+});
+
 app.listen(port, () =>
   console.log(`Server Started At Port http://localhost:${port}`)
 );
