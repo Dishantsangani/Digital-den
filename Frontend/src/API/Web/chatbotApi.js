@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyA1ArI3yYq42zTultXI7YC51EcA6LrxgZ0";
+const BASE_URL = import.meta.env.VITE_GEMINI_API_KEY;
 
 export const chatbotApi = async (userMessage) => {
   const response = await axios.post(BASE_URL, {

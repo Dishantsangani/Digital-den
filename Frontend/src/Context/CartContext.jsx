@@ -8,7 +8,7 @@ import axios from "axios";
 
 const CartContext = createContext();
 
-const BASE_URL = "http://localhost:8080/base/auth/cart/addtocart";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_PORT}/base/auth/cart/addtocart`;
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({ items: [] });
@@ -83,14 +83,22 @@ export const CartProvider = ({ children }) => {
       return { ...prev, items: updatedItems };
     });
   };
-
+  const clearCart = () => setCart({ items: [], total_price: 0 });
   useEffect(() => {
     fetchCart();
   }, []);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, incrementItem, decrementItem, deleteItem }}
+      value={{
+        cart,
+        fetchCart,
+        addToCart,
+        clearCart,
+        incrementItem,
+        decrementItem,
+        deleteItem,
+      }}
     >
       {children}
     </CartContext.Provider>

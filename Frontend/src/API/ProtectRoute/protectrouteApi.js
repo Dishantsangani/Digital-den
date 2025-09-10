@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Toastifyerror } from "../../Component/Notification/Toastitynotificaition";
-const BASE_URL = "http://localhost:8080/base";
+const BASE_URL = `${import.meta.env.VITE_BACKEND_PORT}/base`;
 
 export const protectRouteApi = () => {
   try {

@@ -3,8 +3,11 @@ import { Toastifyerror } from "../../Component/Notification/Toastitynotificaitio
 import { generateInvoiceApi } from "../../API/Web/invoiceApi";
 import { getOrderClientApi } from "../../API/Web/webOrderApi";
 import { ToastContainer } from "react-toastify";
+import { useCart } from "../../Context/CartContext";
 
 function Order() {
+  const { fetchCart } = useCart();
+
   const [getdata, setgetdata] = useState([]);
 
   const featchedData = async () => {
@@ -18,6 +21,10 @@ function Order() {
 
   useEffect(() => {
     featchedData();
+  }, []);
+
+  useEffect(() => {
+    fetchCart();
   }, []);
 
   // Invoice

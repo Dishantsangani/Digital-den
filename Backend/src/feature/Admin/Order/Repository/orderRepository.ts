@@ -17,6 +17,8 @@ export class OrderRepository {
             phone: row.user_phone,
             address: `${row.addressline}, ${row.city}, ${row.state}, ${row.zipcode}`,
           },
+          payment_status: row.payment_status,
+          payment_method: row.payment_method,
           items: [],
           total_sub_total: 0, // initialize total sub total
         };

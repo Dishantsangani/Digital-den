@@ -10,9 +10,17 @@ const app = express();
 
 const port = config.port;
 
+const allowsOrigins = [config.Deploy_frontend_url, config.frontend_url];
+
 app.use(
   cors({
-    origin: config.frontend_url,
+    origin: (origin, callback) => {
+      if (!origin || allowsOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

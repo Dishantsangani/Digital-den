@@ -13,6 +13,7 @@ import { getProductWebApi } from "../../API/Web/productApi";
 import Loader from "../../Component/Common/Loader";
 
 function Home() {
+  const IMAGE_URL = import.meta.env.VITE_BACKEND_PORT;
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [productsByCategory, setProductsByCategory] = useState({});
@@ -384,7 +385,7 @@ function Home() {
                               <div className="block h-56 w-full overflow-hidden rounded-lg">
                                 <img
                                   className="h-full w-full object-cover"
-                                  src={`http://localhost:8080${product.productimage}`}
+                                  src={`${IMAGE_URL}${product.productimage}`}
                                   alt={product.productname}
                                 />
                               </div>

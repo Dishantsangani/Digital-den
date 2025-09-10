@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://localhost:8080/base/checkout`;
+const BASE_URL = `${import.meta.env.VITE_BACKEND_PORT}/base/checkout`;
 
 export const addcheckoutApi = (formdata) => {
   return axios.post(`${BASE_URL}/finalcheckout`, formdata, {

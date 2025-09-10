@@ -12,6 +12,7 @@ import {
 import Loader from "../../../Component/Common/Loader";
 
 function AdminProducts() {
+  const IMAGE_URL = import.meta.env.VITE_BACKEND_PORT;
   const [model, setmodel] = useState(false);
   const [getdata, setgetdata] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -324,7 +325,7 @@ function AdminProducts() {
                     <tr key={item.id} className="border-t border-t-[#ced2e9]">
                       <td className="table-ed0a4a2e-b31f-4b65-9efe-4c152fdab854-column-120 h-[72px] px-4 py-2 w-[400px] text-indigo-600 text-sm font-normal leading-normal">
                         <img
-                          src={`http://localhost:8080${item.productimage}`}
+                          src={`${IMAGE_URL}${item.productimage}`}
                           alt={item.productImage}
                           className="w-25 h-25"
                         />

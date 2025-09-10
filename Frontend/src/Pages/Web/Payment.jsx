@@ -9,12 +9,13 @@ import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { handlePaymentApi } from "../../API/Web/paymentApi";
 import { loadStripe } from "@stripe/stripe-js";
+import { useCart } from "../../Context/CartContext";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
   const navigate = useNavigate();
-
+  const { fetchCart, clearCart } = useCart();
   const [formdata, setformdata] = useState({
     firstname: "",
     lastname: "",
@@ -120,6 +121,8 @@ function Payment() {
       if (formdata.payment === "cash") {
         const res = await addcheckoutApi(formdata);
         console.log("res: ", res);
+        clearCart();
+        await fetchCart();
         Toastitysuccess("Order placed successfully with Cash on Delivery!");
         setTimeout(() => navigate("/order"), 1500);
         return;

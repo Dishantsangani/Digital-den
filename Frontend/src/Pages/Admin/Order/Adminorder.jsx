@@ -126,6 +126,12 @@ function Adminorder() {
                   </th>
                   <th className=" px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
                     Phone Number
+                  </th>{" "}
+                  <th className=" px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
+                    Payment Status
+                  </th>{" "}
+                  <th className=" px-4 py-3 text-left text-[#0d0f1c] w-[400px] text-sm font-medium leading-normal">
+                    Payment Method
                   </th>
                   <th className=" px-4 py-3 text-left text-[#0d0f1c] w-60 text-sm font-medium leading-normal">
                     Address
@@ -164,10 +170,17 @@ function Adminorder() {
                         {item.client.phone}
                       </td>
                       <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        {item.payment_method}
+                      </td>
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
+                        {item.payment_status}
+                      </td>
+
+                      <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                         {item.client.address}
                       </td>
                       <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
-                        ${item.total_sub_total}
+                        ${item.total_sub_total.toLocaleString()}
                       </td>
                       <td className="px-4 py-2  text-indigo-600 text-sm font-normal leading-normal">
                         {item.items.product_name}

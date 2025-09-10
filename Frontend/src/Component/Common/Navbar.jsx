@@ -4,6 +4,7 @@ import logo from "../../assets/Common/Navbarlogo.png";
 import { useCart } from "../../Context/CartContext";
 
 function Navbar() {
+  const IMAGE_URL = import.meta.env.VITE_BACKEND_PORT;
   const { cart, incrementItem, decrementItem, deleteItem } = useCart();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,9 @@ function Navbar() {
     <>
       <nav className="py-3 w-full bg-gray-100 shadow-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <img src={logo} className="h-14 w-auto object-contain" alt="Logo" />
+          <Link to="/">
+            <img src={logo} className="h-14 w-auto object-contain" alt="Logo" />
+          </Link>
 
           <div className="hidden lg:flex lg:items-center lg:space-x-8">
             <Link
@@ -208,7 +211,7 @@ function Navbar() {
                               {/* Image */}
                               <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                 <img
-                                  src={`http://localhost:8080${item.image}`}
+                                  src={`${IMAGE_URL}${item.image}`}
                                   alt={item.name}
                                   className="w-full h-full object-cover"
                                 />
