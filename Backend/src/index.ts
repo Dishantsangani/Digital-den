@@ -41,7 +41,6 @@
 // app.listen(port, () =>
 //   console.log(`Server Started At Port http://localhost:${port}`)
 // );
-
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -51,27 +50,35 @@ import baseRouter from "./routes.js";
 
 const app = express();
 
-const allowsOrigins = [config.Deploy_frontend_url, config.frontend_url];
-
+// CORS
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowsOrigins.includes(origin)) callback(null, true);
-      else callback(new Error("Not allowed by CORS"));
-    },
+    origin: [config.Deploy_frontend_url, config.frontend_url],
     credentials: true,
   })
 );
 
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Use Base Router
 app.use(baseRouter);
 
+// Root route
 app.get("/", (req, res) => {
-  res.send(`<h1>Welcome to DigitalDen Server!</h1>
-            <p>Backend is running successfully.</p>`);
+  res.send(
+    "<h1>Welcome to DigitalDen Server!</h1><p>Backend is running successfully.</p>"
+  );
 });
 
-// Export for Vercel serverless
+// Local server
+if (process.env.NODE_ENV !== "production") {
+  app.listen(config.port, () =>
+    console.log(`Server running at http://localhost:${config.port}`)
+  );
+}
+
+// Serverless export for Vercel
 export default serverless(app);
