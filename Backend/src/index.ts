@@ -1,14 +1,56 @@
+// import dotenv from "dotenv";
+// import express from "express";
+// import cors from "cors";
+// import config from "./utils/config/config.js";
+// import baseRouter from "./routes.js";
+// import cookieParser from "cookie-parser";
+
+// dotenv.config();
+// const app = express();
+
+// const port = config.port;
+
+// const allowsOrigins = [config.Deploy_frontend_url, config.frontend_url];
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowsOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
+
+// app.use(express.json());
+
+// app.use(express.urlencoded({ extended: true }));
+
+// app.use(cookieParser());
+
+// app.use(baseRouter);
+
+// app.get("/", (req, res) => {
+//   res.send(`<h1> Welcome to DigitalDen Server!</h1>
+//     <p>Backend is running successfully.</p>`);
+// });
+
+// app.listen(port, () =>
+//   console.log(`Server Started At Port http://localhost:${port}`)
+// );
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import config from "./utils/config/config.js";
 import baseRouter from "./routes.js";
 import cookieParser from "cookie-parser";
+import serverless from "serverless-http";
 
 dotenv.config();
 const app = express();
-
-const port = config.port;
 
 const allowsOrigins = [config.Deploy_frontend_url, config.frontend_url];
 
@@ -26,11 +68,8 @@ app.use(
 );
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
-
 app.use(baseRouter);
 
 app.get("/", (req, res) => {
@@ -38,6 +77,5 @@ app.get("/", (req, res) => {
     <p>Backend is running successfully.</p>`);
 });
 
-app.listen(port, () =>
-  console.log(`Server Started At Port http://localhost:${port}`)
-);
+// Instead of app.listen(), export the handler for Vercel
+export default serverless(app);
