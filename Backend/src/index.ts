@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
 
-const port = config.port;
+const port = process.env.PORT || config.port;
 
 const allowsOrigins = [config.Deploy_frontend_url, config.frontend_url];
 
