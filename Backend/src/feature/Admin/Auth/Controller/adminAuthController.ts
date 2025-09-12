@@ -28,8 +28,9 @@ export class AdminauthController {
     try {
       res.clearCookie("token", {
         httpOnly: true,
-        secure: config.secret.jwtsecretkey === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
+        path: "/",
       });
       return res
         .status(StatusCodes.OK)
