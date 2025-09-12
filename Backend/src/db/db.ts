@@ -11,7 +11,12 @@ class PostgresqlClient implements IDBClient {
   pool: Pool | null = null;
 
   constructor() {
-    this.pool = new Pool(config.db);
+    this.pool = new Pool({
+      connectionString: config.db.connectionString,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
     this.pool
       .connect()
       .then(() => {

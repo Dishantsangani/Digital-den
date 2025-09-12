@@ -10,11 +10,12 @@ dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 interface Config {
   port: number;
   db: {
-    user: string;
-    host: string;
-    password: string;
-    database: string;
-    port: number;
+    // user: string;
+    // host: string;
+    // password: string;
+    // database: string;
+    // port: number;
+    connectionString?: string;
   };
   smtp: {
     email: string;
@@ -33,11 +34,12 @@ interface Config {
 const config: Config = {
   port: parseInt(process.env.PORT || "5000"),
   db: {
-    port: parseInt(process.env.DB_PORT || "9000"),
-    database: process.env.DB_NAME || "",
-    user: process.env.DB_USER || "",
-    password: process.env.DB_PASSWORD || "",
-    host: process.env.DB_HOST || "",
+    // port: parseInt(process.env.DB_PORT || "9000"),
+    // database: process.env.DB_NAME || "",
+    // user: process.env.DB_USER || "",
+    // password: process.env.DB_PASSWORD || "",
+    // host: process.env.DB_HOST || "",
+    connectionString: process.env.DATABASE_URL,
   },
   smtp: {
     email: process.env.EMAIL_USER || "",
