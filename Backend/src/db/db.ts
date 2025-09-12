@@ -20,23 +20,33 @@ class PostgresqlClient implements IDBClient {
       connectionTimeoutMillis: 20000,
     });
     this.pool
-      .connect()
-      .then(() => {
-        logger.info("Database connected successfully");
-      })
-      .catch((e: Error) => console.log("Database Conneted Error", e.message));
-    this.pool.on("error", (error: Error) => {
-      console.log(
-        "This is db Error",
-        error.name,
-        "|",
-        error.message,
-        "|",
-        error.stack,
-        "|",
-        ""
-      );
+      .query("SELECT 1")
+      .then(() => logger.info("Database connected successfully"))
+      .catch((err) => logger.error("Database connection failed", err));
+
+    // Handle unexpected errors on idle clients
+    this.pool.on("error", (err) => {
+      logger.error("Unexpected DB error", err);
     });
+
+    // this.pool
+    //   .connect()
+    //   .then(() => {
+    //     logger.info("Database connected successfully");
+    //   })
+    //   .catch((e: Error) => console.log("Database Conneted Error", e.message));
+    // this.pool.on("error", (error: Error) => {
+    //   console.log(
+    //     "This is db Error",
+    //     error.name,
+    //     "|",
+    //     error.message,
+    //     "|",
+    //     error.stack,
+    //     "|",
+    //     ""
+    //   );
+    // });
   }
 
   private async query(
