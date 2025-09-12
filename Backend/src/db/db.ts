@@ -16,6 +16,8 @@ class PostgresqlClient implements IDBClient {
       ssl: {
         rejectUnauthorized: false,
       },
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 20000,
     });
     this.pool
       .connect()
