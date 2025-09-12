@@ -27,7 +27,6 @@ interface Config {
   };
   stripe: string;
   frontend_url: string;
-  Deploy_frontend_url: string;
   backend_url: string;
 }
 
@@ -52,7 +51,6 @@ const config: Config = {
   stripe: process.env.STRIPE_SECRET_KEY || "",
   frontend_url: process.env.FRONTEND_URL || "",
   backend_url: process.env.BACKEND_URL || "",
-  Deploy_frontend_url: process.env.DEPLOY_FRONTEND_URL || "",
 };
 
 export default config;
