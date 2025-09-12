@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Loader from "../../Component/Common/Loader";
 
 const Restock = () => {
+  const IMAGE_URL = import.meta.env.VITE_BACKEND_PORT;
   const [products, setProducts] = useState([]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -190,7 +191,7 @@ const Restock = () => {
                   >
                     <img
                       className="w-16 h-16 object-cover rounded"
-                      src={`http://localhost:8080${product.productimage}`}
+                      src={`${IMAGE_URL}${product.productimage}`}
                     />
 
                     <td className="px-4 py-2 h-[72px] text-indigo-600">
