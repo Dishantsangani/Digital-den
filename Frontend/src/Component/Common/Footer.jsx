@@ -55,7 +55,7 @@ function Footer() {
           <hr className="my-6 border-gray-200 md:my-10 " />
           <div className="flex flex-col items-center sm:flex-row sm:justify-between">
             <p className="text-sm text-gray-500 ">
-              © Copyright 2021. All Rights Reserved.
+              © Copyright 2025. All Rights Reserved by <Link to={https://dishantsangani.netlify.app } className="text-blue-500">DishantSangani</Link>
             </p>
             <div className="flex -mx-2">
               <a
